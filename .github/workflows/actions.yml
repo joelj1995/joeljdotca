@@ -7,11 +7,19 @@ jobs:
     environment: Production
     steps:
     - uses: actions/checkout@master
-    - name: copy file via ssh password
+    - name: copy CMS
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.WP_VM_SSH_HOST }}
         username: service
         password: ${{ secrets.WP_VM_SSH_PASSWORD }}
         source: "wordpress"
+        target: "/srv/www"
+    - name: copy blog app
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.WP_VM_SSH_HOST }}
+        username: service
+        password: ${{ secrets.WP_VM_SSH_PASSWORD }}
+        source: "blog-app"
         target: "/srv/www"
