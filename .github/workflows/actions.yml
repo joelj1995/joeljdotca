@@ -17,7 +17,7 @@ jobs:
     - name: Build
       working-directory: ./blog-app
       run: npm run build
-    - name: copy CMS
+    - name: Copy CMS
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.WP_VM_SSH_HOST }}
@@ -25,11 +25,12 @@ jobs:
         password: ${{ secrets.WP_VM_SSH_PASSWORD }}
         source: "wordpress"
         target: "/srv/www"
-    - name: copy blog app
+    - name: Copy blog app
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.WP_VM_SSH_HOST }}
         username: service
         password: ${{ secrets.WP_VM_SSH_PASSWORD }}
-        source: "blog-app"
+        source: "blog-app/dist"
         target: "/srv/www"
+        strip_components: 2
