@@ -2,11 +2,21 @@ name: GitHub Actions Demo
 on: [push]
 jobs:
   deploy:
-    name: Deploy
+    name: Build and Deploy
     runs-on: ubuntu-latest
     environment: Production
     steps:
     - uses: actions/checkout@master
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '17'
+    - name: Install dependencies
+      working-directory: ./blog-app
+      run: npm install
+    - name: Build
+      working-directory: ./blog-app
+      run: npm run build
     - name: copy CMS
       uses: appleboy/scp-action@master
       with:
