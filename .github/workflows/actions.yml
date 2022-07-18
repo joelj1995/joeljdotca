@@ -32,5 +32,6 @@ jobs:
         username: service
         password: ${{ secrets.WP_VM_SSH_PASSWORD }}
         source: "blog-app/dist"
-        target: "/srv/www"
+        target: "/srv/www/blog-app/"
         strip_components: 2
+        rm: true
