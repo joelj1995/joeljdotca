@@ -8,6 +8,13 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { BlogRollComponent } from './blog-roll/blog-roll.component';
+import { AboutMeComponent } from './pages/about-me/about-me.component';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [
+  { path: '', component: LandingComponent },
+  { path: 'about-me', component: AboutMeComponent }
+]; // sets up routes constant where you define your routes
 
 @NgModule({
   declarations: [
@@ -15,12 +22,14 @@ import { BlogRollComponent } from './blog-roll/blog-roll.component';
     HeaderComponent,
     FooterComponent,
     LandingComponent,
-    BlogRollComponent
+    BlogRollComponent,
+    AboutMeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
