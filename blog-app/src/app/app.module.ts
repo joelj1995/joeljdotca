@@ -10,6 +10,8 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { BlogRollComponent } from './blog-roll/blog-roll.component';
 import { AboutMeComponent } from './pages/about-me/about-me.component';
 import { Routes, RouterModule } from '@angular/router';
+import { WordpressService } from './services/wordpress.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -28,10 +30,11 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgbModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [WordpressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { WordpressService } from '../services/wordpress.service';
 
 @Component({
   selector: 'app-blog-roll',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlogRollComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private wordpressService: WordpressService
+  ) { }
+
+  posts!: any[];
+
+  loadingPosts: boolean = true;
 
   ngOnInit(): void {
+    this.wordpressService.getPosts().subscribe(data => {
+      this.posts = data;
+    });
   }
 
 }
