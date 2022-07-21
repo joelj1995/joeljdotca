@@ -8,7 +8,7 @@ import { Post } from '../models/post';
 })
 export class WordpressService {
 
-  BASE_URL: string = 'http://www.joelj.ca/wordpress/index.php/wp-json/wp/v2'
+  BASE_URL: string = 'https://www.joelj.ca/wordpress/index.php/wp-json/wp/v2'
 
   constructor(
     private http: HttpClient
