@@ -23,13 +23,13 @@
 define( 'DB_NAME', 'wordpress_joeljca' );
 
 /** Database username */
-define( 'DB_USER', '{{WP_DB_HOST}}' );
+define( 'DB_USER', 'svcWordpress' );
 
 /** Database password */
 define( 'DB_PASSWORD', '{{WP_DB_PASSWORD}}' );
 
 /** Database hostname */
-define( 'DB_HOST', '' );
+define( 'DB_HOST', '{{WP_DB_HOST}}' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );
