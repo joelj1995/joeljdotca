@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -e
+
 echo "[DEPLOY] Deployment started against target host $1"
 TARGET_HOST=$1
 

@@ -48,9 +48,9 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-{{WP_CONFIG_KEYS}}
 
 /**#@-*/
+{{WP_CONFIG_KEYS}}
 
 /**
  * WordPress database table prefix.
