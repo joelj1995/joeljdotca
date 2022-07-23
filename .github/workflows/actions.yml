@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Transform wp-config.php
-      run: ./infrastructure/transform-wp-config.sh
+      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}'
       shell: bash
     - name: Setup Node.js
       uses: actions/setup-node@v2
