@@ -7,9 +7,9 @@
 </div>
 <ng-template #elseBlock>
   <article class="blog-post" *ngFor="let post of posts">
-    <h2 class="blog-post-title mb-1">{{post.title.rendered}}</h2>
-    <p class="blog-post-meta">{{post.date | date:'yyyy-MM-dd, h:mm a'}}</p>
-    <div [innerHTML]="post.excerpt.rendered"></div>
+    <h2 class="blog-post-title mb-1">{{post.title}}</h2>
+    <p class="blog-post-meta">{{post.date | date:'yyyy-MM-dd'}}</p>
+    <div [innerHTML]="post.excerpt"></div>
   </article>
   <nav class="blog-pagination" aria-label="Pagination">
     <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>

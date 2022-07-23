@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Post } from '../models/post';
 import { WordpressService } from '../services/wordpress.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class BlogRollComponent implements OnInit {
     private wordpressService: WordpressService
   ) { }
 
-  posts!: any[];
+  posts!: Post[];
 
   loadingPosts: boolean = true;
 

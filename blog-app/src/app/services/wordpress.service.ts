@@ -14,8 +14,22 @@ export class WordpressService {
     private http: HttpClient
   ) { }
 
-  getPosts(): Observable<any> {
-    return this.http.get<any[]>(`${this.BASE_URL}/posts`)
+  getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.BASE_URL}/posts`).pipe(map(bindPostsDataToModel));
   }
 
+}
+
+function bindPostsDataToModel(postsData: any[]) {
+  let result: Post[] = [];
+  postsData.forEach(postData => {
+    result.push({
+      id: 1,
+      date: postData.date,
+      slug: postData.slug,
+      excerpt: postData.excerpt.rendered,
+      title: postData.title.rendered
+    } as Post)
+  }) ;
+  return result;
 }
