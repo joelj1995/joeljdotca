@@ -9,6 +9,14 @@ jobs:
     environment: Production
     steps:
     - uses: actions/checkout@master
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.WP_VM_SSH_KEY }} 
+        known_hosts: ${{ secrets.WP_VM_SSH_HOST }}
+    - name: Add known host
+      run: ssh-keyscan -H ${{ secrets.WP_VM_SSH_HOST }} >> ~/.ssh/known_hosts
+      shell: bash
     - name: Transform wp-config.php
       run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}'
       shell: bash
@@ -22,4 +30,6 @@ jobs:
     - name: Build
       working-directory: ./blog-app
       run: npm run build
-    
+    - name: Deploy
+      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}"
+      shell: bash
