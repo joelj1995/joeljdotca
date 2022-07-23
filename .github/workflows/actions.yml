@@ -9,6 +9,9 @@ jobs:
     environment: Production
     steps:
     - uses: actions/checkout@master
+    - name: Transform wp-config.php
+      run: ./infrastructure/transform-wp-config.sh
+      shell: bash
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
@@ -19,13 +22,4 @@ jobs:
     - name: Build
       working-directory: ./blog-app
       run: npm run build
-    - name: Copy blog app
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.WP_VM_SSH_HOST }}
-        username: service
-        password: ${{ secrets.WP_VM_SSH_PASSWORD }}
-        source: "blog-app/dist"
-        target: "/srv/www/blog-app/"
-        strip_components: 2
-        rm: true
+    
