@@ -15,17 +15,21 @@ export class PostViewComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  post!: Post;
+  post: Post | null = null;
   slug!: string;
 
-  loadingPosts: boolean = true;
+  notFound: boolean = false;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      this.post = null;
+      this.notFound = false;
       this.slug = params['slug'];
       this.wordpressService.getPost(this.slug).subscribe(data => {
         if (data.length > 0) {
           this.post = data[0];
+        } else {
+          this.notFound = true;
         }
       });
     })

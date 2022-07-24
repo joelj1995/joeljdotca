@@ -1,10 +1,16 @@
 <div *ngIf="post == null; else elseBlock">
-  Loading...
+  <div *ngIf="notFound; else loadingBlock">
+    <p>The post you're looking for has been moved or deleted.</p>
+    <p><a routerLink="/">Go home</a></p>
+  </div>
+  <ng-template #loadingBlock>
+    <p>Loading...</p>
+  </ng-template>
 </div>
 <ng-template #elseBlock>
   <article>
-    <h2 class="blog-post-title mb-1">{{post.title}}</h2>
-    <p class="blog-post-meta">{{post.date | date:'yyyy-MM-dd'}}</p>
-    <div [innerHTML]="post.content"></div>
+    <h2 class="blog-post-title mb-1">{{post!.title}}</h2>
+    <p class="blog-post-meta">{{post!.date | date:'yyyy-MM-dd'}}</p>
+    <div [innerHTML]="post!.content"></div>
   </article>
 </ng-template>
