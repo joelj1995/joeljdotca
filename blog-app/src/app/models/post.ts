@@ -4,4 +4,5 @@ export interface Post {
   slug: String;
   excerpt: String;
   title: String;
+  content: String;
 }

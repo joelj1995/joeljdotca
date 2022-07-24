@@ -15,21 +15,32 @@ export class WordpressService {
   ) { }
 
   getPosts(): Observable<Post[]> {
+    // TODO: make a service to cache posts
     return this.http.get<Post[]>(`${this.BASE_URL}/posts`).pipe(map(bindPostsDataToModel));
   }
 
+  getPost(slug: string): Observable<Post[]> {
+    // TODO: Check cache for post when implemented
+    return this.http.get<Post[]>(`${this.BASE_URL}/posts?slug=${slug}`).pipe(map(bindPostsDataToModel));
+  }
+
+}
+
+function bindPostDataToModel(postData: any): Post {
+  return {
+    id: 1,
+    date: postData.date,
+    slug: postData.slug,
+    excerpt: postData.excerpt.rendered,
+    title: postData.title.rendered,
+    content: postData.content.rendered
+  } as Post
 }
 
 function bindPostsDataToModel(postsData: any[]) {
   let result: Post[] = [];
   postsData.forEach(postData => {
-    result.push({
-      id: 1,
-      date: postData.date,
-      slug: postData.slug,
-      excerpt: postData.excerpt.rendered,
-      title: postData.title.rendered
-    } as Post)
+    result.push(bindPostDataToModel(postData));
   }) ;
   return result;
 }

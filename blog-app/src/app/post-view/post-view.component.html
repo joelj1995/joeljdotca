@@ -1,0 +1,10 @@
+<div *ngIf="post == null; else elseBlock">
+  Loading...
+</div>
+<ng-template #elseBlock>
+  <article>
+    <h2 class="blog-post-title mb-1">{{post.title}}</h2>
+    <p class="blog-post-meta">{{post.date | date:'yyyy-MM-dd'}}</p>
+    <div [innerHTML]="post.content"></div>
+  </article>
+</ng-template>

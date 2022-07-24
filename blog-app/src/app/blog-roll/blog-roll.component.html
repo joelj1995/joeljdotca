@@ -10,6 +10,7 @@
     <h2 class="blog-post-title mb-1">{{post.title}}</h2>
     <p class="blog-post-meta">{{post.date | date:'yyyy-MM-dd'}}</p>
     <div [innerHTML]="post.excerpt"></div>
+    <a [routerLink]="['/blog', post.slug]">Read More</a>
   </article>
   <nav class="blog-pagination" aria-label="Pagination">
     <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
