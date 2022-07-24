@@ -13,10 +13,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { WordpressService } from './services/wordpress.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PostViewComponent } from './post-view/post-view.component';
+import { PageViewComponent } from './page-view/page-view.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'about-me', component: AboutMeComponent },
+  { path: 'pages/:slug', component: PageViewComponent },
   { path: 'blog/:slug', component: PostViewComponent }
 ]; // sets up routes constant where you define your routes
 
@@ -28,7 +29,8 @@ const routes: Routes = [
     LandingComponent,
     BlogRollComponent,
     AboutMeComponent,
-    PostViewComponent
+    PostViewComponent,
+    PageViewComponent
   ],
   imports: [
     BrowserModule,

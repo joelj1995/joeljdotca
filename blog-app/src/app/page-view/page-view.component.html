@@ -1,0 +1,9 @@
+<div *ngIf="page == null; else elseBlock">
+  Loading...
+</div>
+<ng-template #elseBlock>
+  <article>
+    <h2 class="blog-post-title mb-1">{{page.title}}</h2>
+    <div [innerHTML]="page.content"></div>
+  </article>
+</ng-template>
