@@ -1,8 +1,7 @@
 <div class="col-md-8">
   <h3 class="pb-4 mb-4 fst-italic border-bottom">Blog</h3>
 </div>
-
-<div *ngIf="posts == null; else elseBlock">
+<div *ngIf="loading; else elseBlock">
   Loading...
 </div>
 <ng-template #elseBlock>
@@ -13,8 +12,8 @@
     <a [routerLink]="['/blog', post.slug]">Read More</a>
   </article>
   <nav class="blog-pagination" aria-label="Pagination">
-    <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
-    <a class="btn btn-outline-secondary rounded-pill disabled">Newer</a>
+    <a class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage + 1}" [attr.disabled]="currentPage == totalPages ? '' : null">Older</a>
+    <a class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage - 1}" [attr.disabled]="currentPage == 1 ? '' : null">Newer</a>
   </nav>
 </ng-template>
 

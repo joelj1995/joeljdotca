@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Page } from '../models/page';
 import { Post } from '../models/post';
+import { Posts } from '../models/posts'
 
 @Injectable({
   providedIn: 'root'
@@ -19,16 +20,21 @@ export class WordpressService {
     return this.http.get<Page[]>(`${this.BASE_URL}/pages?slug=${slug}`).pipe(map(bindPagesDataToModel));
   }
 
-  getPosts(): Observable<Post[]> {
+  getPosts(page: number, perPage: number): Observable<Posts> {
     // TODO: make a service to cache posts
-    return this.http.get<Post[]>(`${this.BASE_URL}/posts`).pipe(map(bindPostsDataToModel));
+    return this.http.get<any>(`${this.BASE_URL}/posts?page=${page}&per_page=${perPage}`, { observe: 'response' })
+      .pipe(map(res => {
+        return {
+          posts: bindPostsDataToModel(res.body),
+          totalPages: Number(res.headers.get('X-WP-TotalPages'))
+        } as Posts
+      }));
   }
 
   getPost(slug: string): Observable<Post[]> {
     // TODO: Check cache for post when implemented
     return this.http.get<Post[]>(`${this.BASE_URL}/posts?slug=${slug}`).pipe(map(bindPostsDataToModel));
   }
-
 }
 
 function bindPageDataToModel(pageData: any): Page {
