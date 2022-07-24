@@ -17,7 +17,7 @@ export class BlogRollComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  readonly perPage: number = 2;
+  readonly perPage: number = 5;
   totalPages: number = 1;
   currentPage: number = 1;
   posts: Post[] = [];
