@@ -6,9 +6,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { LandingComponent } from './pages/landing/landing.component';
 import { BlogRollComponent } from './blog-roll/blog-roll.component';
-import { AboutMeComponent } from './pages/about-me/about-me.component';
 import { Routes, RouterModule } from '@angular/router';
 import { WordpressService } from './services/wordpress.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,7 +14,7 @@ import { PostViewComponent } from './post-view/post-view.component';
 import { PageViewComponent } from './page-view/page-view.component';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent },
+  { path: '', component: BlogRollComponent },
   { path: 'pages/:slug', component: PageViewComponent },
   { path: 'blog/:slug', component: PostViewComponent }
 ]; // sets up routes constant where you define your routes
@@ -26,9 +24,7 @@ const routes: Routes = [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    LandingComponent,
     BlogRollComponent,
-    AboutMeComponent,
     PostViewComponent,
     PageViewComponent
   ],
