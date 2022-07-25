@@ -20,4 +20,6 @@ echo '[DEPLOY] Syncing site files to server'
 rsync -az ./joeljca service@$TARGET_HOST:/srv/www
 rsync --rsync-path="sudo rsync" ./infrastructure/*.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
 
+ssh service@$TARGET_HOST "sudo chown -R www-data: /srv/www"
+
 echo '[DEPLOY] Deployment succeeded'
