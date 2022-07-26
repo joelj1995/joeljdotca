@@ -12,6 +12,7 @@ import { WordpressService } from './services/wordpress.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PostViewComponent } from './post-view/post-view.component';
 import { PageViewComponent } from './page-view/page-view.component';
+import { CacheService } from './services/cache.service';
 
 const routes: Routes = [
   { path: '', component: BlogRollComponent },
@@ -35,7 +36,7 @@ const routes: Routes = [
     NgbModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [WordpressService],
+  providers: [WordpressService, CacheService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
