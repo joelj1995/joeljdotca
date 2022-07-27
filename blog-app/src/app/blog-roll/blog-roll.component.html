@@ -12,7 +12,7 @@
     <a [routerLink]="['/blog', post.slug]">Read More</a>
   </article>
   <nav class="blog-pagination" aria-label="Pagination">
-    <a class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage + 1}" [attr.disabled]="currentPage == totalPages ? '' : null">Older</a>
+    <a style="margin-right: 4px;" class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage + 1}" [attr.disabled]="currentPage == totalPages ? '' : null">Older</a>
     <a class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage - 1}" [attr.disabled]="currentPage == 1 ? '' : null">Newer</a>
   </nav>
 </ng-template>
