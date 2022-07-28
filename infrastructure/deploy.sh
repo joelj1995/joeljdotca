@@ -22,12 +22,15 @@ echo '[DEPLOY] Removing site files on server'
 ssh service@$TARGET_HOST "sudo rm -rf /srv/www/$APACHE_SITE_NAME"
 
 echo '[DEPLOY] Syncing site files to server'
-cp ./infrastructure/joeljca-ssl.conf ./infrastructure/$APACHE_SITE_NAME.conf
-sed -i "s/{{TARGET_HOST}}/$TARGET_HOST/" ./infrastructure/$APACHE_SITE_NAME.conf
+cp ./infrastructure/template-ssl.conf ./infrastructure/$APACHE_SITE_NAME-ssl.conf
+sed -i "s/{{APACHE_SITE_NAME}}/$APACHE_SITE_NAME/" ./infrastructure/$APACHE_SITE_NAME-ssl.conf
+sed -i "s/{{WP_SITE_URL}}/$WP_SITE_URL/" ./infrastructure/$APACHE_SITE_NAME-ssl.conf
+cp ./infrastructure/template.conf ./infrastructure/$APACHE_SITE_NAME.conf
 sed -i "s/{{APACHE_SITE_NAME}}/$APACHE_SITE_NAME/" ./infrastructure/$APACHE_SITE_NAME.conf
 sed -i "s/{{WP_SITE_URL}}/$WP_SITE_URL/" ./infrastructure/$APACHE_SITE_NAME.conf
 rsync -az ./$APACHE_SITE_NAME service@$TARGET_HOST:/srv/www
 rsync --rsync-path="sudo rsync" ./infrastructure/$APACHE_SITE_NAME.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
+rsync --rsync-path="sudo rsync" ./infrastructure/$APACHE_SITE_NAME-ssl.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
 
 echo '[DEPLOY] Mounting the file share'
 # TODO: inject the name of the storage account so this is environment agnostic
