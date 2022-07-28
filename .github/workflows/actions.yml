@@ -18,7 +18,7 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.WP_VM_SSH_HOST }} >> ~/.ssh/known_hosts
       shell: bash
     - name: Transform wp-config.php
-      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "${{secrets.WP_SITE_URL}}" "${{secrets.WP_DB_USER}}" "${{secrets.WP_DB_NAME}}"
+      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "${{secrets.WP_SITE_URL}}" "${{secrets.WP_DB_USER}}" "${{secrets.WP_DB_NAME}}" "${{secrets.APACHE_SITE_NAME}}"
       shell: bash
     - name: Setup Node.js
       uses: actions/setup-node@v2

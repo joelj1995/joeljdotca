@@ -90,3 +90,4 @@ require_once ABSPATH . 'wp-settings.php';
 
 define( 'WP_HOME', 'https://{{WP_SITE_URL}}/wordpress' );
 define( 'WP_SITEURL', 'https://{{WP_SITE_URL}}/wordpress' );
+define( 'UPLOADS', 'wp-content/'.'uploads/'.'{{APACHE_SITE_NAME}}' );
