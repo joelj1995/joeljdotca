@@ -31,5 +31,5 @@ jobs:
       working-directory: ./blog-app
       run: npm run build
     - name: Deploy
-      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}"
+      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "${{secrets.APACHE_SITE_NAME}}" "${{secrets.WP_SITE_URL}}"
       shell: bash
