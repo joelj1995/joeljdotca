@@ -6,7 +6,7 @@ jobs:
   deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
-    environment: Test
+    environment: Production
     steps:
     - uses: actions/checkout@master
     - name: Install SSH Key
