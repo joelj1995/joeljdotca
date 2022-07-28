@@ -11,7 +11,7 @@ import { CacheService } from './cache.service';
 })
 export class WordpressService {
 
-  BASE_URL: string = 'https://www.joelj.ca/wordpress/index.php/wp-json/wp/v2'
+  BASE_URL: string = '/wordpress/index.php/wp-json/wp/v2'
 
   constructor(
     private http: HttpClient,
