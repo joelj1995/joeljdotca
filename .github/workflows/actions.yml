@@ -12,6 +12,8 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '17'
+        cache: 'npm'
+        cache-dependency-path: blog-app/package-lock.json
     - name: Install dependencies
       working-directory: ./blog-app
       run: npm install
