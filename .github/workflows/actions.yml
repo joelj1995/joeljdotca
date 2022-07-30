@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Build and deploy website
 on: 
   push:
     branches: 'master'
@@ -7,12 +7,38 @@ env:
   WP_SITE_URL: wwwtest.joelj.ca
   WP_DB_NAME: wordpress_testjoeljca
 jobs:
-  deploy:
-    name: Build and Deploy
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '17'
+    - name: Install dependencies
+      working-directory: ./blog-app
+      run: npm install
+    - name: Build
+      working-directory: ./blog-app
+      run: npm run build
+    - name: Upload math result for job 1
+      uses: actions/upload-artifact@v3
+      with:
+        name: blog-app
+        path: ./blog-app/dist/blog-app
+  deploy-test:
+    name: Deploy to test
+    needs: build
     runs-on: ubuntu-latest
     environment: Test
     steps:
     - uses: actions/checkout@master
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v3
+      with:
+        name: blog-app
+        path: ./blog-app/dist/blog-app
     - name: Install SSH Key
       uses: shimataro/ssh-key-action@v2
       with:
@@ -24,16 +50,6 @@ jobs:
     - name: Transform wp-config.php
       run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "${{env.WP_SITE_URL}}" "${{secrets.WP_DB_USER}}" "${{env.WP_DB_NAME}}" "${{env.APACHE_SITE_NAME}}"
       shell: bash
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '17'
-    - name: Install dependencies
-      working-directory: ./blog-app
-      run: npm install
-    - name: Build
-      working-directory: ./blog-app
-      run: npm run build
     - name: Deploy
       run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "${{env.APACHE_SITE_NAME}}" "${{env.WP_SITE_URL}}"
       shell: bash
