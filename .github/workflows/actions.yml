@@ -18,6 +18,8 @@ jobs:
     - name: Build
       working-directory: ./blog-app
       run: npm run build
+    - name: Output revision to file
+      run: echo '${{github.sha}}' > ./blog-app/dist/blog-app/what-version.txt
     - name: Upload math result for job 1
       uses: actions/upload-artifact@v3
       with:
