@@ -2,10 +2,6 @@ name: Build and deploy website
 on: 
   push:
     branches: 'master'
-env:
-  APACHE_SITE_NAME: testjoeljca
-  WP_SITE_URL: wwwtest.joelj.ca
-  WP_DB_NAME: wordpress_testjoeljca
 jobs:
   build:
     name: Build
@@ -48,8 +44,34 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.WP_VM_SSH_HOST }} >> ~/.ssh/known_hosts
       shell: bash
     - name: Transform wp-config.php
-      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "${{env.WP_SITE_URL}}" "${{secrets.WP_DB_USER}}" "${{env.WP_DB_NAME}}" "${{env.APACHE_SITE_NAME}}"
+      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "wwwtest.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_testjoeljca" "testjoeljca"
       shell: bash
     - name: Deploy
-      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "${{env.APACHE_SITE_NAME}}" "${{env.WP_SITE_URL}}"
+      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "testjoeljca" "wwwtest.joelj.ca"
+      shell: bash
+  deploy-prod:
+    name: Deploy to production
+    needs: build
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+    - uses: actions/checkout@master
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v3
+      with:
+        name: blog-app
+        path: ./blog-app/dist/blog-app
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.WP_VM_SSH_KEY }} 
+        known_hosts: ${{ secrets.WP_VM_SSH_HOST }}
+    - name: Add known host
+      run: ssh-keyscan -H ${{ secrets.WP_VM_SSH_HOST }} >> ~/.ssh/known_hosts
+      shell: bash
+    - name: Transform wp-config.php
+      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "www.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "joeljca"
+      shell: bash
+    - name: Deploy
+      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "joeljca" "www.joelj.ca"
       shell: bash
