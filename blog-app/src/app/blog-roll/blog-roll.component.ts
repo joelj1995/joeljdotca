@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Post } from '../models/post';
 import { Posts } from '../models/posts';
 import { WordpressService } from '../services/wordpress.service';
+import { WpPost } from '../wp-model/wp-post';
 
 @Component({
   selector: 'app-blog-roll',
@@ -20,7 +20,7 @@ export class BlogRollComponent implements OnInit {
   readonly perPage: number = 5;
   totalPages: number = 1;
   currentPage: number = 1;
-  posts: Post[] = [];
+  posts: WpPost[] = [];
 
   loading: boolean = true;
 
@@ -29,7 +29,7 @@ export class BlogRollComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.loading = true;
       this.posts = [];
-      this.totalPages = 2;
+      this.totalPages = 1;
       if (Number(params['page'])) {
         this.currentPage = Number(params['page']);
       } else {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Post } from '../models/post';
 import { WordpressService } from '../services/wordpress.service';
+import { WpPost } from '../wp-model/wp-post';
 
 @Component({
   selector: 'app-post-view',
@@ -15,7 +15,7 @@ export class PostViewComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  post: Post | null = null;
+  post: WpPost | null = null;
   slug!: string;
 
   notFound: boolean = false;

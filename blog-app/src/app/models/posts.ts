@@ -1,6 +1,6 @@
-import { Post } from "./post";
+import { WpPost } from "../wp-model/wp-post";
 
 export interface Posts {
-  posts: Post[],
+  posts: WpPost[],
   totalPages: number
 }

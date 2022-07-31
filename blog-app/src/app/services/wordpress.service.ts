@@ -2,8 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Page } from '../models/page';
-import { Post } from '../models/post';
 import { Posts } from '../models/posts'
 import { WpPage } from '../wp-model/wp-page'
 import { WpPost } from '../wp-model/wp-post';
@@ -21,8 +19,8 @@ export class WordpressService {
     private cache: CacheService
   ) { }
 
-  getPage(slug: string): Observable<Page[]> {
-    return this.http.get<WpPage[]>(`${this.BASE_URL}/pages?slug=${slug}`).pipe(map(bindPagesDataToModel));
+  getPage(slug: string): Observable<WpPage[]> {
+    return this.http.get<WpPage[]>(`${this.BASE_URL}/pages?slug=${slug}`);
   }
 
   getPosts(page: number, perPage: number): Observable<Posts> {
@@ -40,56 +38,20 @@ export class WordpressService {
             throw 'No posts returned';
           }
           return {
-            posts: bindPostsDataToModel(res.body),
+            posts: res.body,
             totalPages: Number(res.headers.get('X-WP-TotalPages'))
           } as Posts
         })
       );
   }
 
-  getPost(slug: string): Observable<Post[]> {
+  getPost(slug: string): Observable<WpPost[]> {
     const cacheResult = this.cache.get(slug);
     if (cacheResult) {
       return new Observable(observer => {
-        observer.next([bindPostDataToModel(cacheResult)]);
+        observer.next([cacheResult]);
       })
     }
-    return this.http.get<WpPost[]>(`${this.BASE_URL}/posts?slug=${slug}`).pipe(map(bindPostsDataToModel));
+    return this.http.get<WpPost[]>(`${this.BASE_URL}/posts?slug=${slug}`);
   }
-}
-
-function bindPageDataToModel(pageData: WpPage): Page {
-  return {
-    id: pageData.id,
-    slug: pageData.slug,
-    title: pageData.title.rendered,
-    content: pageData.content.rendered
-  } as Page
-}
-
-function bindPagesDataToModel(pagesData: any[]) {
-  let result: Page[] = [];
-  pagesData.forEach(pageData => {
-    result.push(bindPageDataToModel(pageData));
-  }) ;
-  return result;
-}
-
-function bindPostDataToModel(postData: WpPost): Post {
-  return {
-    id: postData.id,
-    date: postData.date,
-    slug: postData.slug,
-    excerpt: postData.excerpt.rendered,
-    title: postData.title.rendered,
-    content: postData.content.rendered
-  } as Post
-}
-
-function bindPostsDataToModel(postsData: WpPost[]) {
-  let result: Post[] = [];
-  postsData.forEach(postData => {
-    result.push(bindPostDataToModel(postData));
-  }) ;
-  return result;
 }
