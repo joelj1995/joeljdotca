@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { Page } from '../models/page';
 import { Post } from '../models/post';
 import { Posts } from '../models/posts'
+import { WpPage } from '../wp-model/wp-page'
+import { WpPost } from '../wp-model/wp-post';
 import { CacheService } from './cache.service';
 
 @Injectable({
@@ -20,19 +22,23 @@ export class WordpressService {
   ) { }
 
   getPage(slug: string): Observable<Page[]> {
-    return this.http.get<Page[]>(`${this.BASE_URL}/pages?slug=${slug}`).pipe(map(bindPagesDataToModel));
+    return this.http.get<WpPage[]>(`${this.BASE_URL}/pages?slug=${slug}`).pipe(map(bindPagesDataToModel));
   }
 
   getPosts(page: number, perPage: number): Observable<Posts> {
-    // TODO: make a service to cache posts
-    return this.http.get<any>(`${this.BASE_URL}/posts?page=${page}&per_page=${perPage}`, { observe: 'response' })
+    return this.http.get<WpPost[]>(`${this.BASE_URL}/posts?page=${page}&per_page=${perPage}`, { observe: 'response' })
       .pipe(
         tap(res => {
-          res.body.forEach((postData: any) => {
-            this.cache.set(postData.slug, postData);
-          })
+          if (res.body) {
+            res.body.forEach((postData: any) => {
+              this.cache.set(postData.slug, postData);
+            });
+          }
         }),
         map(res => {
+          if (res.body == null) {
+            throw 'No posts returned';
+          }
           return {
             posts: bindPostsDataToModel(res.body),
             totalPages: Number(res.headers.get('X-WP-TotalPages'))
@@ -42,18 +48,17 @@ export class WordpressService {
   }
 
   getPost(slug: string): Observable<Post[]> {
-    // TODO: Check cache for post when implemented
     const cacheResult = this.cache.get(slug);
     if (cacheResult) {
       return new Observable(observer => {
         observer.next([bindPostDataToModel(cacheResult)]);
       })
     }
-    return this.http.get<Post[]>(`${this.BASE_URL}/posts?slug=${slug}`).pipe(map(bindPostsDataToModel));
+    return this.http.get<WpPost[]>(`${this.BASE_URL}/posts?slug=${slug}`).pipe(map(bindPostsDataToModel));
   }
 }
 
-function bindPageDataToModel(pageData: any): Page {
+function bindPageDataToModel(pageData: WpPage): Page {
   return {
     id: pageData.id,
     slug: pageData.slug,
@@ -70,7 +75,7 @@ function bindPagesDataToModel(pagesData: any[]) {
   return result;
 }
 
-function bindPostDataToModel(postData: any): Post {
+function bindPostDataToModel(postData: WpPost): Post {
   return {
     id: postData.id,
     date: postData.date,
@@ -81,7 +86,7 @@ function bindPostDataToModel(postData: any): Post {
   } as Post
 }
 
-function bindPostsDataToModel(postsData: any[]) {
+function bindPostsDataToModel(postsData: WpPost[]) {
   let result: Post[] = [];
   postsData.forEach(postData => {
     result.push(bindPostDataToModel(postData));
