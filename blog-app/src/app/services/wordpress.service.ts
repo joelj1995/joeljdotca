@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Page } from '../models/page';
 import { Post } from '../models/post';
 import { Posts } from '../models/posts'
@@ -11,7 +12,7 @@ import { CacheService } from './cache.service';
 })
 export class WordpressService {
 
-  BASE_URL: string = '/wordpress/index.php/wp-json/wp/v2'
+  BASE_URL: string = `${environment.wpBaseUrl}/wordpress/index.php/wp-json/wp/v2`
 
   constructor(
     private http: HttpClient,
