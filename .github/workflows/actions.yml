@@ -3,6 +3,20 @@ on:
   push:
     branches: 'master'
 jobs:
+  deploy-environment-v2:
+    name: Deploy new Azure infrastructure
+    runs-on: ubuntu-latest
+    env:
+      AZURE_RESOURCEGROUP_NAME: joeljca-v2
+    steps:
+    - uses: actions/checkout@v2
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: azure/arm-deploy@v1
+      with:
+        resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
+        template: ./infrastructure/environment-v2/environment.bicep
   build:
     name: Build
     runs-on: ubuntu-latest
