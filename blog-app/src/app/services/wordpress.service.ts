@@ -27,7 +27,6 @@ export class WordpressService {
     return this.http.get<any>(`${this.BASE_URL}/posts?page=${page}&per_page=${perPage}`, { observe: 'response' })
       .pipe(
         tap(res => {
-          console.log(`tapped ${res.body[0].slug}`)
           res.body.forEach((postData: any) => {
             this.cache.set(postData.slug, postData);
           })
