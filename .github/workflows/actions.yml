@@ -17,6 +17,7 @@ jobs:
       with:
         resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
         template: ./infrastructure/environment-v2/environment.bicep
+        parameters: serviceUserPassword=${{secrets.WP_VM_PASSWORD}}
   build:
     name: Build
     runs-on: ubuntu-latest
