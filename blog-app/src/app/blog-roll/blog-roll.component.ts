@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BlogError } from '../models/blog-error';
 import { Posts } from '../models/posts';
 import { WordpressService } from '../services/wordpress.service';
-import { WpPost } from '../wp-model/wp-post';
 
 @Component({
   selector: 'app-blog-roll',
@@ -18,30 +17,32 @@ export class BlogRollComponent implements OnInit {
   ) { }
 
   readonly perPage: number = 5;
-  totalPages: number = 1;
   currentPage: number = 1;
-  posts: WpPost[] = [];
+  posts: Posts = {
+    posts: [],
+    totalPages: 0
+  } as Posts;
 
   loading: boolean = true;
 
   ngOnInit(): void {
-    this.posts = [];
     this.route.queryParams.subscribe(params => {
       this.loading = true;
-      this.posts = [];
-      this.totalPages = 1;
       if (Number(params['page'])) {
         this.currentPage = Number(params['page']);
       } else {
         this.currentPage = 1;
       }
-      this.wordpressService.getPosts(this.currentPage, this.perPage).subscribe(data => {
-        this.posts = data.posts;
-        this.loading = false;
-        this.totalPages = data.totalPages;
-      });
+      this.wordpressService.getPosts(this.currentPage, this.perPage)
+        .subscribe({
+          next: data => {
+            this.posts = <Posts>data;
+            this.loading = false;
+          },
+          error: err => console.error(err.message)
+        }
+      );
     })
-
   }
 
 }

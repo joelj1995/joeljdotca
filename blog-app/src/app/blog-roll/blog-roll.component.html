@@ -5,15 +5,14 @@
   Loading...
 </div>
 <ng-template #elseBlock>
-  <article class="blog-post" *ngFor="let post of posts">
+  <article class="blog-post" *ngFor="let post of posts.posts">
     <h3 class="blog-post-title mb-1">{{post.title.rendered}}</h3>
     <p class="blog-post-meta">{{post.date | date:'yyyy-MM-dd'}}</p>
     <div [innerHTML]="post.excerpt.rendered"></div>
     <a [routerLink]="['/blog', post.slug]">Read More</a>
   </article>
   <nav class="blog-pagination" aria-label="Pagination">
-    <a style="margin-right: 4px;" class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage + 1}" [attr.disabled]="currentPage == totalPages ? '' : null">Older</a>
+    <a style="margin-right: 4px;" class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage + 1}" [attr.disabled]="currentPage == posts.totalPages ? '' : null">Older</a>
     <a class="btn btn-outline-primary rounded-pill" routerLink="/" [queryParams]="{page: currentPage - 1}" [attr.disabled]="currentPage == 1 ? '' : null">Newer</a>
   </nav>
 </ng-template>
-
