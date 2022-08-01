@@ -138,3 +138,12 @@ resource wordpressVMInitScript 'Microsoft.Compute/virtualMachines/extensions@202
     }
   }
 }
+
+module enpoints 'nfs.bicep' = {
+  name: '${environmentName}endpointdeployment'
+  params: {
+    location: location
+    vnetID: wordpressVNET.id
+    environmentName: environmentName
+  }
+}
