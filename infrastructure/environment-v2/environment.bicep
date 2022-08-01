@@ -1,6 +1,7 @@
 param location string = resourceGroup().location
 param serviceUserName string = 'service'
 param serviceUserPassword string
+param initScriptRef string
 
 var environmentName = 'joeljcav2'
 
@@ -120,14 +121,20 @@ resource wordpressVM 'Microsoft.Compute/virtualMachines@2022-03-01' = {
   }
 }
 
-resource wordpressStorage 'Microsoft.Storage/storageAccounts@2021-09-01' = {
-  name: '${environmentName}wpnfs'
+resource wordpressVMInitScript 'Microsoft.Compute/virtualMachines/extensions@2020-12-01' = {
+  name: '${environmentName}wpvminit'
+  parent: wordpressVM
   location: location
-  sku: {
-    name: 'Premium_LRS'
-  }
-  kind: 'FileStorage'
   properties: {
-    accessTier: 'Hot'
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'CustomScript'
+    typeHandlerVersion: '2.0'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: [
+        'https://raw.githubusercontent.com/joelj1995/joeljdotca/${initScriptRef}/infrastructure/environment-v2/init-vm.sh'
+      ]
+      commandToExecute: 'sh init-vm.sh'
+    }
   }
 }
