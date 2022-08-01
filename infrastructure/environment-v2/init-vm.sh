@@ -16,6 +16,8 @@ sudo apt install -y apache2 \
 sudo mkdir -p /srv/www
 sudo chown www-data: /srv/www
 
+sudo a2enmod rewrite
+
 # NFS dependency
 sudo apt install -y nfs-common
 

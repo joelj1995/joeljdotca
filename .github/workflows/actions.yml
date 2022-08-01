@@ -2,6 +2,8 @@ name: Build and deploy website
 on: 
   push:
     branches: 'master'
+env:
+  WP_VM_SSH_HOST2: 20.104.20.113
 jobs:
   deploy-environment-v2:
     name: Deploy new Azure infrastructure
@@ -93,4 +95,30 @@ jobs:
       shell: bash
     - name: Deploy
       run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "joeljca" "www.joelj.ca"
+      shell: bash
+  deploy-prod-2:
+    name: Deploy to production 2
+    needs: [build, deploy-environment-v2]
+    runs-on: ubuntu-latest
+    environment: Production2
+    steps:
+    - uses: actions/checkout@master
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v3
+      with:
+        name: blog-app
+        path: ./blog-app/dist/blog-app
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.WP_VM_SSH_KEY }} 
+        known_hosts: ${{ env.WP_VM_SSH_HOST2 }}
+    - name: Add known host
+      run: ssh-keyscan -H ${{ env.WP_VM_SSH_HOST2 }} >> ~/.ssh/known_hosts
+      shell: bash
+    - name: Transform wp-config.php
+      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "www.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "joeljca"
+      shell: bash
+    - name: Deploy
+      run: ./infrastructure/deploy.sh "${{env.WP_VM_SSH_HOST2}}" "joeljca" "www.joelj.ca"
       shell: bash

@@ -28,7 +28,7 @@ sed -i "s/{{WP_SITE_URL}}/$WP_SITE_URL/" ./infrastructure/apache/$APACHE_SITE_NA
 cp ./infrastructure/apache/template.conf ./infrastructure/apache/$APACHE_SITE_NAME.conf
 sed -i "s/{{APACHE_SITE_NAME}}/$APACHE_SITE_NAME/" ./infrastructure/apache/$APACHE_SITE_NAME.conf
 sed -i "s/{{WP_SITE_URL}}/$WP_SITE_URL/" ./infrastructure/apache/$APACHE_SITE_NAME.conf
-rsync -az ./$APACHE_SITE_NAME service@$TARGET_HOST:/srv/www
+rsync --rsync-path="sudo rsync" -az ./$APACHE_SITE_NAME service@$TARGET_HOST:/srv/www
 rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
 rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME-ssl.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
 

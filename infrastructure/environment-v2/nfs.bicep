@@ -1,12 +1,13 @@
 param location string
 param vnetID string
 param environmentName string
+param storageLocation string = 'canadaeast'
 
 var subnetRef = '${vnetID}/subnets/default'
 
 resource premiumStorage 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   name: '${environmentName}premiumstorage'
-  location: 'canadaeast'
+  location: storageLocation
   sku: {
     name: 'Premium_LRS'
     tier: 'Premium'
@@ -88,22 +89,22 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2020-06-01' = {
   }
 }
 
-resource privateDnsZones 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.blob.core.windows.net'
-  location: 'global'
-  properties: {}
-}
+// resource privateDnsZones 'Microsoft.Network/privateDnsZones@2018-09-01' = {
+//   name: 'privatelink.blob.core.windows.net'
+//   location: 'global'
+//   properties: {}
+// }
 
-resource privateDnsZoneLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2018-09-01' = {
-  name: '${privateDnsZones.name}/${privateDnsZones.name}-link'
-  location: 'global'
-  properties: {
-    registrationEnabled: false
-    virtualNetwork: {
-      id: vnetID
-    }
-  }
-}
+// resource privateDnsZoneLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2018-09-01' = {
+//   name: '${privateDnsZones.name}/${privateDnsZones.name}-link'
+//   location: 'global'
+//   properties: {
+//     registrationEnabled: false
+//     virtualNetwork: {
+//       id: vnetID
+//     }
+//   }
+// }
 
 resource privateDnsZoneGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2020-06-01' = {
   name: '${privateEndpoint.name}/dnsgroupname'
