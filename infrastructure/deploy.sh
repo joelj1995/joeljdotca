@@ -32,6 +32,7 @@ sed -i "s/{{WP_SITE_URL}}/$WP_SITE_URL/" ./infrastructure/apache/$APACHE_SITE_NA
 rsync --rsync-path="sudo rsync" -az ./$APACHE_SITE_NAME service@$TARGET_HOST:/srv/www
 rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
 rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME-ssl.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
+ssh service@$TARGET_HOST "sudo sh -c 'hostname > /srv/www/$APACHE_SITE_NAME/what-host.txt'"
 
 echo '[DEPLOY] Mounting the file share'
 ssh service@$TARGET_HOST "sudo mkdir -p /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads"
