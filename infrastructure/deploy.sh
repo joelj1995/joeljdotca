@@ -6,6 +6,7 @@ echo "[DEPLOY] Deployment started against target host $1"
 TARGET_HOST=$1
 APACHE_SITE_NAME=$2
 WP_SITE_URL=$3
+AZ_NFS=$4
 
 echo '[DEPLOY] Staging site files locally'
 rm -rf $APACHE_SITE_NAME
@@ -33,9 +34,8 @@ rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME.conf s
 rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME-ssl.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
 
 echo '[DEPLOY] Mounting the file share'
-# TODO: inject the name of the storage account so this is environment agnostic
 ssh service@$TARGET_HOST "sudo mkdir -p /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads"
-ssh service@$TARGET_HOST "sudo mount -t nfs joeljca.file.core.windows.net:/joeljca/wp-uploads /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads -o vers=4,minorversion=1,sec=sys"
+ssh service@$TARGET_HOST "sudo mount -t nfs $AZ_NFS:/joeljca/wp-uploads /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads -o vers=4,minorversion=1,sec=sys"
 
 echo '[DEPLOY] Updating owner of /srv/www to www-data'
 ssh service@$TARGET_HOST "sudo chown -R www-data: /srv/www"

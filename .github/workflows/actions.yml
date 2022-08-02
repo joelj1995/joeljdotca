@@ -49,6 +49,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: Test
+    env:
+      AZ_NFS: joeljca.file.core.windows.net
     steps:
     - uses: actions/checkout@master
     - name: Download math result for job 1
@@ -68,13 +70,15 @@ jobs:
       run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "wwwtest.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_testjoeljca" "testjoeljca"
       shell: bash
     - name: Deploy
-      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "testjoeljca" "wwwtest.joelj.ca"
+      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "testjoeljca" "wwwtest.joelj.ca" $AZ_NFS
       shell: bash
   deploy-prod:
     name: Deploy to production
     needs: build
     runs-on: ubuntu-latest
     environment: Production
+    env:
+      AZ_NFS: joeljca.file.core.windows.net
     steps:
     - uses: actions/checkout@master
     - name: Download math result for job 1
@@ -91,34 +95,36 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.WP_VM_SSH_HOST }} >> ~/.ssh/known_hosts
       shell: bash
     - name: Transform wp-config.php
-      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "www.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "joeljca"
+      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "www.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "joeljca" $AZ_NFS
       shell: bash
     - name: Deploy
       run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "joeljca" "www.joelj.ca"
       shell: bash
-  deploy-prod-2:
-    name: Deploy to production 2
-    needs: [build, deploy-environment-v2]
-    runs-on: ubuntu-latest
-    environment: Production2
-    steps:
-    - uses: actions/checkout@master
-    - name: Download math result for job 1
-      uses: actions/download-artifact@v3
-      with:
-        name: blog-app
-        path: ./blog-app/dist/blog-app
-    - name: Install SSH Key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.WP_VM_SSH_KEY }} 
-        known_hosts: ${{ env.WP_VM_SSH_HOST2 }}
-    - name: Add known host
-      run: ssh-keyscan -H ${{ env.WP_VM_SSH_HOST2 }} >> ~/.ssh/known_hosts
-      shell: bash
-    - name: Transform wp-config.php
-      run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "www.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "joeljca"
-      shell: bash
-    - name: Deploy
-      run: ./infrastructure/deploy.sh "${{env.WP_VM_SSH_HOST2}}" "joeljca" "www.joelj.ca"
-      shell: bash
+  # deploy-prod-2:
+  #   name: Deploy to production 2
+  #   needs: [build, deploy-environment-v2]
+  #   runs-on: ubuntu-latest
+  #   environment: Production2
+  #   env:
+  #     - AZ_NFS: 10.0.0.5
+  #   steps:
+  #   - uses: actions/checkout@master
+  #   - name: Download math result for job 1
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: blog-app
+  #       path: ./blog-app/dist/blog-app
+  #   - name: Install SSH Key
+  #     uses: shimataro/ssh-key-action@v2
+  #     with:
+  #       key: ${{ secrets.WP_VM_SSH_KEY }} 
+  #       known_hosts: ${{ env.WP_VM_SSH_HOST2 }}
+  #   - name: Add known host
+  #     run: ssh-keyscan -H ${{ env.WP_VM_SSH_HOST2 }} >> ~/.ssh/known_hosts
+  #     shell: bash
+  #   - name: Transform wp-config.php
+  #     run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "www.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "joeljca"
+  #     shell: bash
+  #   - name: Deploy
+  #     run: ./infrastructure/deploy.sh "${{env.WP_VM_SSH_HOST2}}" "joeljca" "www.joelj.ca"
+  #     shell: bash
