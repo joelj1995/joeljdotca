@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Test
     env:
-      AZ_NFS: joeljca.file.core.windows.net
+      AZ_NFS: joeljca.file.core.windows.net:/joeljca/wp-uploads
     steps:
     - uses: actions/checkout@master
     - name: Download math result for job 1
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
     env:
-      AZ_NFS: joeljca.file.core.windows.net
+      AZ_NFS: joeljca.file.core.windows.net:/joeljca/wp-uploads
     steps:
     - uses: actions/checkout@master
     - name: Download math result for job 1
@@ -106,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production2
     env:
-     AZ_NFS: 10.0.0.5
+     AZ_NFS: 10.0.0.5:/joeljcav2premiumstorage/wp-uploads
     steps:
     - uses: actions/checkout@master
     - name: Download math result for job 1

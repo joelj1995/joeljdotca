@@ -35,7 +35,7 @@ rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME-ssl.co
 
 echo '[DEPLOY] Mounting the file share'
 ssh service@$TARGET_HOST "sudo mkdir -p /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads"
-ssh service@$TARGET_HOST "sudo mount -t nfs $AZ_NFS:/joeljca/wp-uploads /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads -o vers=4,minorversion=1,sec=sys"
+ssh service@$TARGET_HOST "sudo mount -t nfs $AZ_NFS /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads -o vers=4,minorversion=1,sec=sys"
 
 echo '[DEPLOY] Updating owner of /srv/www to www-data'
 ssh service@$TARGET_HOST "sudo chown -R www-data: /srv/www"
