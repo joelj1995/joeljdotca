@@ -17,6 +17,7 @@ sudo mkdir -p /srv/www
 sudo chown www-data: /srv/www
 
 sudo a2enmod rewrite
+sudo a2enmod ssl
 
 # NFS dependency
 sudo apt install -y nfs-common
