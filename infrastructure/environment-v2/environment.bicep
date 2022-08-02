@@ -2,6 +2,7 @@ param location string = resourceGroup().location
 param serviceUserName string = 'service'
 param serviceUserPassword string
 param initScriptRef string
+param storageLocation string = 'canadaeast'
 
 var environmentName = 'joeljcav2'
 
@@ -145,5 +146,6 @@ module enpoints 'nfs.bicep' = {
     location: location
     vnetID: wordpressVNET.id
     environmentName: environmentName
+    storageLocation: storageLocation
   }
 }

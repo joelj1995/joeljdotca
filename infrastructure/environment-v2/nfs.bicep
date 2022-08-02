@@ -1,7 +1,7 @@
 param location string
 param vnetID string
 param environmentName string
-param storageLocation string = 'canadaeast'
+param storageLocation string
 
 var subnetRef = '${vnetID}/subnets/default'
 
@@ -10,7 +10,6 @@ resource premiumStorage 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   location: storageLocation
   sku: {
     name: 'Premium_LRS'
-    tier: 'Premium'
   }
   kind: 'FileStorage'
   properties: {
@@ -90,7 +89,7 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2020-06-01' = {
 }
 
 resource privateDnsZones 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.blob.core.windows.net'
+  name: 'privatelink.blob.${environment().suffixes.storage}'
   location: 'global'
   properties: {}
 }
