@@ -1,5 +1,6 @@
 param location string = resourceGroup().location
 param serviceUserName string = 'service'
+@secure()
 param serviceUserPassword string
 param initScriptRef string
 param storageLocation string = 'canadaeast'
