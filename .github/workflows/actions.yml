@@ -70,7 +70,7 @@ jobs:
       run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "wwwtest.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_testjoeljca" "testjoeljca"
       shell: bash
     - name: Deploy
-      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "testjoeljca" "wwwtest.joelj.ca" $AZ_NFS
+      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "testjoeljca" "wwwtest.joelj.ca" $AZ_NFS '${{github.sha}}'
       shell: bash
   deploy-prod:
     name: Deploy to production
@@ -98,7 +98,7 @@ jobs:
       run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "www.joelj.ca" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "joeljca"
       shell: bash
     - name: Deploy
-      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "joeljca" "www.joelj.ca" $AZ_NFS
+      run: ./infrastructure/deploy.sh "${{secrets.WP_VM_SSH_HOST}}" "joeljca" "www.joelj.ca" $AZ_NFS '${{github.sha}}'
       shell: bash
   deploy-test-2:
     name: Deploy to test 2
@@ -128,7 +128,7 @@ jobs:
       run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "${{env.WP_SITE_URL}}" "${{secrets.WP_DB_USER}}" "wordpress_testjoeljca" "${{env.APACHE_SITE_NAME}}"
       shell: bash
     - name: Deploy
-      run: ./infrastructure/deploy.sh "${{env.WP_VM_SSH_HOST2}}" "${{env.APACHE_SITE_NAME}}" "${{env.WP_SITE_URL}}" $AZ_NFS
+      run: ./infrastructure/deploy.sh "${{env.WP_VM_SSH_HOST2}}" "${{env.APACHE_SITE_NAME}}" "${{env.WP_SITE_URL}}" $AZ_NFS '${{github.sha}}'
       shell: bash
   deploy-prod-2:
     name: Deploy to production 2
@@ -158,5 +158,5 @@ jobs:
       run: ./infrastructure/transform-wp-config.sh "${{secrets.WP_DB_HOST}}" "${{secrets.WP_DB_PASSWORD}}" $'${{secrets.WP_CONFIG_KEYS}}' "${{env.WP_SITE_URL}}" "${{secrets.WP_DB_USER}}" "wordpress_joeljca" "${{env.APACHE_SITE_NAME}}"
       shell: bash
     - name: Deploy
-      run: ./infrastructure/deploy.sh "${{env.WP_VM_SSH_HOST2}}" "${{env.APACHE_SITE_NAME}}" "${{env.WP_SITE_URL}}" $AZ_NFS
+      run: ./infrastructure/deploy.sh "${{env.WP_VM_SSH_HOST2}}" "${{env.APACHE_SITE_NAME}}" "${{env.WP_SITE_URL}}" $AZ_NFS '${{github.sha}}'
       shell: bash
