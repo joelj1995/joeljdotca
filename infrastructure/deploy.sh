@@ -11,7 +11,7 @@ AZ_NFS=$4
 echo '[DEPLOY] Staging site files locally'
 rm -rf $APACHE_SITE_NAME
 mkdir $APACHE_SITE_NAME
-cp ./blog-app/dist/blog-app/* ./$APACHE_SITE_NAME
+cp -r ./blog-app/dist/blog-app/* ./$APACHE_SITE_NAME
 cp ./infrastructure/apache/joeljca.htaccess ./$APACHE_SITE_NAME/.htaccess
 mkdir $APACHE_SITE_NAME/wordpress
 cp -r ./wordpress/ ./$APACHE_SITE_NAME
