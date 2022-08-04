@@ -8,6 +8,7 @@ APACHE_SITE_NAME=$2
 WP_SITE_URL=$3
 AZ_NFS=$4
 REVISION=$5
+DEPLOYMENT_NUMBER=$6
 
 echo '[DEPLOY] Staging site files locally'
 rm -rf $APACHE_SITE_NAME
@@ -20,9 +21,6 @@ cp -r ./wordpress/ ./$APACHE_SITE_NAME
 echo "[DEPLOY] Unmounting the file share"
 ssh service@$TARGET_HOST "sudo umount -f -l /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads" || echo "Could not unmount share"
 
-echo '[DEPLOY] Removing site files on server'
-ssh service@$TARGET_HOST "sudo rm -rf /srv/www/$APACHE_SITE_NAME"
-
 echo '[DEPLOY] Substituting template values'
 sed -i "s/{{HOST}}/$TARGET_HOST/" ./$APACHE_SITE_NAME/assets/server-info.js
 sed -i "s/{{REVISION}}/$REVISION/" ./$APACHE_SITE_NAME/assets/server-info.js
@@ -32,11 +30,15 @@ sed -i "s/{{WP_SITE_URL}}/$WP_SITE_URL/" ./infrastructure/apache/$APACHE_SITE_NA
 cp ./infrastructure/apache/template.conf ./infrastructure/apache/$APACHE_SITE_NAME.conf
 sed -i "s/{{APACHE_SITE_NAME}}/$APACHE_SITE_NAME/" ./infrastructure/apache/$APACHE_SITE_NAME.conf
 sed -i "s/{{WP_SITE_URL}}/$WP_SITE_URL/" ./infrastructure/apache/$APACHE_SITE_NAME.conf
+
 echo '[DEPLOY] Syncing site files to server'
-rsync --rsync-path="sudo rsync" -az ./$APACHE_SITE_NAME service@$TARGET_HOST:/srv/www
+mv ./$APACHE_SITE_NAME ./$APACHE_SITE_NAME-$DEPLOYMENT_NUMBER
+rsync --rsync-path="sudo rsync" -az ./$APACHE_SITE_NAME-$DEPLOYMENT_NUMBER service@$TARGET_HOST:/srv/www
 rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
 rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME-ssl.conf service@$TARGET_HOST:/etc/apache2/sites-enabled
-ssh service@$TARGET_HOST "sudo sh -c 'hostname > /srv/www/$APACHE_SITE_NAME/what-host.txt'"
+
+echo '[DEPLOY] Updating symbolic link'
+ssh service@$TARGET_HOST "bash -s $APACHE_SITE_NAME $DEPLOYMENT_NUMBER" < ./infrastructure/make-it-live.sh
 
 echo '[DEPLOY] Mounting the file share'
 ssh service@$TARGET_HOST "sudo mkdir -p /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads"
