@@ -1,4 +1,5 @@
 window.serverInfo = {
   host: '{{HOST}}',
-  revision: '{{REVISION}}'
+  revision: '{{REVISION}}',
+  location: window.location.href
 }
