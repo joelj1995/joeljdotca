@@ -47,7 +47,4 @@ ssh service@$TARGET_HOST "sudo mount -t nfs $AZ_NFS /srv/www/$APACHE_SITE_NAME/w
 echo '[DEPLOY] Updating owner of /srv/www to www-data'
 ssh service@$TARGET_HOST "sudo chown -R www-data: /srv/www"
 
-echo '[DEPLOY] Restaring Apache'
-ssh service@$TARGET_HOST "sudo systemctl restart apache2.service"
-
 echo '[DEPLOY] Deployment succeeded'
