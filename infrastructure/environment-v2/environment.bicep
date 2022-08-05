@@ -3,7 +3,6 @@ param serviceUserName string = 'service'
 @secure()
 param serviceUserPassword string
 param initScriptRef string
-param storageLocation string = 'canadaeast'
 
 var environmentName = 'joeljcav2'
 
@@ -138,15 +137,5 @@ resource wordpressVMInitScript 'Microsoft.Compute/virtualMachines/extensions@202
       ]
       commandToExecute: 'sh init-vm.sh'
     }
-  }
-}
-
-module enpoints 'nfs.bicep' = {
-  name: '${environmentName}endpointdeployment'
-  params: {
-    location: location
-    vnetID: wordpressVNET.id
-    environmentName: environmentName
-    storageLocation: storageLocation
   }
 }

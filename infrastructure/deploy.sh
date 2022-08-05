@@ -18,9 +18,6 @@ cp ./infrastructure/apache/joeljca.htaccess ./$APACHE_SITE_NAME/.htaccess
 mkdir $APACHE_SITE_NAME/wordpress
 cp -r ./wordpress/ ./$APACHE_SITE_NAME
 
-echo "[DEPLOY] Unmounting the file share"
-ssh service@$TARGET_HOST "sudo umount -f -l /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads" || echo "Could not unmount share"
-
 echo '[DEPLOY] Substituting template values'
 sed -i "s/{{HOST}}/$TARGET_HOST/" ./$APACHE_SITE_NAME/assets/server-info.js
 sed -i "s/{{REVISION}}/$REVISION/" ./$APACHE_SITE_NAME/assets/server-info.js
@@ -39,10 +36,6 @@ rsync --rsync-path="sudo rsync" ./infrastructure/apache/$APACHE_SITE_NAME-ssl.co
 
 echo '[DEPLOY] Updating symbolic link'
 ssh service@$TARGET_HOST "bash -s $APACHE_SITE_NAME $DEPLOYMENT_NUMBER" < ./infrastructure/make-it-live.sh
-
-echo '[DEPLOY] Mounting the file share'
-ssh service@$TARGET_HOST "sudo mkdir -p /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads"
-ssh service@$TARGET_HOST "sudo mount -t nfs $AZ_NFS /srv/www/$APACHE_SITE_NAME/wordpress/wp-content/uploads -o vers=4,minorversion=1,sec=sys"
 
 echo '[DEPLOY] Updating owner of /srv/www to www-data'
 ssh service@$TARGET_HOST "sudo chown -R www-data: /srv/www"

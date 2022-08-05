@@ -20,3 +20,5 @@ echo "[Deploy:Remote] Symbolic path: $SYMBOLIC_PATH"
 
 sudo sh -c 'hostname > $HARD_PATH/what-host.txt'
 sudo ln -sfn $HARD_PATH $SYMBOLIC_PATH
+
+sudo ln -sfn /etc/joeljca/uploads $HARD_PATH/wordpress/wp-content/uploads
