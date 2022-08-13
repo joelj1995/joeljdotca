@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  wpBaseUrl: 'https://wwwtest.joelj.ca'
+  wpBaseUrl: 'https://wwwtest.joelj.ca',
+  features: {
+    SUBSCRIBE: true
+  }
 };
 
 /*

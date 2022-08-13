@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FeastureService } from '../services/feasture.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private feature: FeastureService) { }
+
+  feature_subscribeEnabled: boolean = false;
 
   ngOnInit(): void {
+    this.feature.isFeatureEnable('SUBSCRIBE').subscribe(enabled => this.feature_subscribeEnabled = enabled);
   }
 
 }
