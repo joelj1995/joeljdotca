@@ -13,9 +13,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { PostViewComponent } from './post-view/post-view.component';
 import { PageViewComponent } from './page-view/page-view.component';
 import { CacheService } from './services/cache.service';
+import { SubscribeComponent } from './subscribe/subscribe.component';
 
 const routes: Routes = [
   { path: '', component: BlogRollComponent },
+  { path: 'subscribe', component: SubscribeComponent },
   { path: 'pages/:slug', component: PageViewComponent },
   { path: 'blog/:slug', component: PostViewComponent }
 ]; // sets up routes constant where you define your routes
@@ -27,7 +29,8 @@ const routes: Routes = [
     FooterComponent,
     BlogRollComponent,
     PostViewComponent,
-    PageViewComponent
+    PageViewComponent,
+    SubscribeComponent
   ],
   imports: [
     BrowserModule,
