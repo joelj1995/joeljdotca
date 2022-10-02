@@ -23,3 +23,9 @@ sudo a2enmod ssl
 sudo apt install -y nfs-common
 
 touch /tmp/init-script-completed
+
+# AZ Copy v10
+wget https://aka.ms/downloadazcopy-v10-linux
+tar -xvf downloadazcopy-v10-linux
+sudo rm -f /usr/bin/azcopy
+sudo cp ./azcopy_linux_amd64_*/azcopy /usr/bin/
