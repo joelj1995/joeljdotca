@@ -10,24 +10,33 @@ const options = yargs
   .option('c', { alias: 'contentfulapikey', description: 'API key for the destination contentful instance', type: 'string', demandOption: true })
   .argv;
 
-console.log(options.contentfulapikey);
-
 const client = contentful.createClient({
   accessToken: options.contentfulapikey
 });
 
-function createContentEntry(entryData) {
+function migrateContent(contentType, entryData) {
   return client.getSpace('jdcejwtspy00').then(space => {
     return space.getEnvironment('master').then(environment => {
-      environment.createEntry('post', entryData);
+      environment.createEntry(contentType, entryData);
     });
   });
+}
+
+function cfField(value) {
+  return { 'en-US': value };
 }
 
 function getWordpressPosts() {
   return axios.get(`${options.wpbasepath}/index.php/wp-json/wp/v2/posts`)
     .then(res => {
-      return res.data.map(wordpressPostToCfEntry);
+      return res;
+    });
+}
+
+function getWordpressPages() {
+  return axios.get(`${options.wpbasepath}/index.php/wp-json/wp/v2/pages`)
+    .then(res => {
+      return res;
     });
 }
 
@@ -42,14 +51,32 @@ function wordpressPostToCfEntry(data) {
   };
 }
 
-function cfField(value) {
-  return {'en-US': value };
+function migratePosts() {
+  getWordpressPosts()
+    .then(posts => {
+      posts.data.map(wordpressPostToCfEntry).forEach(post => {
+        migrateContent('post', post);
+      });
+    })
 }
 
-getWordpressPosts()
-  .then(posts => {
-    console.log(posts);
-    posts.forEach(post => {
-      createContentEntry(post);
-    });
-  })
+function wordpressPageToCfEntry(data) {
+  return {
+    fields: {
+      slug: cfField(data.slug),
+      legacyWordpressContent: cfField(data.content.rendered),
+      title: cfField(data.title.rendered),
+    }
+  };
+}
+
+function migratePages() {
+  getWordpressPages()
+    .then(pages => {
+      pages.data.map(wordpressPageToCfEntry).forEach(page => {
+        migrateContent('page', page);
+      });
+    })
+}
+
+migratePages();
