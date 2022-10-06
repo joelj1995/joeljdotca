@@ -3,6 +3,7 @@ console.log('Migrating Wordpress content to contentful');
 const yargs = require("yargs");
 const axios = require("axios");
 const contentful = require('contentful-management');
+const util = require('util')
 
 const options = yargs
   .usage('Usage: -w <wp-base-path> -c <contentful-api-key>')
@@ -14,12 +15,24 @@ const client = contentful.createClient({
   accessToken: options.contentfulapikey
 });
 
-function migrateContent(contentType, entryData) {
-  return client.getSpace('jdcejwtspy00').then(space => {
-    return space.getEnvironment('master').then(environment => {
-      environment.createEntry(contentType, entryData);
-    });
-  });
+const asyncSpace = client.getSpace('jdcejwtspy00');
+const existingContent = {
+  'page': [],
+  'post': []
+}
+
+async function migrateContent(contentType, entryData) {
+  const space = await asyncSpace;
+  const environment = await space.getEnvironment('master');
+  const existingEntry = existingContent[contentType].find(c => c.slug === entryData.fields.slug['en-US']);
+  if (existingEntry) {
+    return environment.getEntry(existingEntry.id).then(entry => {
+      entry.fields = entryData.fields;
+      return entry.update();
+    })
+  } else {
+    return environment.createEntry(contentType, entryData);
+  }
 }
 
 function cfField(value) {
@@ -79,4 +92,17 @@ function migratePages() {
     })
 }
 
-migratePages();
+asyncSpace.then(space => {
+  space.getEnvironment('master').then(environment => {
+    environment.getEntries().then(entries => {
+      entries.items.forEach(entry => {
+        const entryType = entry.sys.contentType.sys.id;
+        const slug = entry.fields.slug['en-US'];
+        const id = entry.sys.id;
+        existingContent[entryType].push({slug, id});
+      });
+      migratePages();
+      migratePosts();
+    });
+  });
+})
