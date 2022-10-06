@@ -9,8 +9,8 @@
 </div>
 <ng-template #elseBlock>
   <article>
-    <h1 class="mb-1">{{post!.title.rendered}}</h1>
+    <h1 class="mb-1">{{post!.title}}</h1>
     <p class="blog-post-meta">{{post!.date | date:'yyyy-MM-dd'}}</p>
-    <div [innerHTML]="post!.content.rendered"></div>
+    <div [innerHTML]="post!.content"></div>
   </article>
 </ng-template>

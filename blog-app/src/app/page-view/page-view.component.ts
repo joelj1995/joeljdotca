@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Page } from '../models/page';
 import { IContentService } from '../services/abc/content.service';
-import { WpPage } from '../wp-model/wp-page';
 
 @Component({
   selector: 'app-page-view',
@@ -15,7 +15,7 @@ export class PageViewComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  page!: WpPage;
+  page!: Page;
   slug!: string;
 
   ngOnInit(): void {
