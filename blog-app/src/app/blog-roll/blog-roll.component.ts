@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogError } from '../models/blog-error';
 import { Posts } from '../models/posts';
-import { WordpressService } from '../services/wordpress.service';
+import { IContentService } from '../services/abc/content.service';
 
 @Component({
   selector: 'app-blog-roll',
@@ -12,7 +12,7 @@ import { WordpressService } from '../services/wordpress.service';
 export class BlogRollComponent implements OnInit {
 
   constructor(
-    private wordpressService: WordpressService,
+    private contentService: IContentService,
     private route: ActivatedRoute
   ) { }
 
@@ -33,7 +33,7 @@ export class BlogRollComponent implements OnInit {
       } else {
         this.currentPage = 1;
       }
-      this.wordpressService.getPosts(this.currentPage, this.perPage)
+      this.contentService.getPosts(this.currentPage, this.perPage)
         .subscribe({
           next: data => {
             this.posts = <Posts>data;

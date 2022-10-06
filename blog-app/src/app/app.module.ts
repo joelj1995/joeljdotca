@@ -14,6 +14,7 @@ import { PostViewComponent } from './post-view/post-view.component';
 import { PageViewComponent } from './page-view/page-view.component';
 import { CacheService } from './services/cache.service';
 import { SubscribeComponent } from './subscribe/subscribe.component';
+import { IContentService } from './services/abc/content.service';
 
 const routes: Routes = [
   { path: '', component: BlogRollComponent },
@@ -39,7 +40,7 @@ const routes: Routes = [
     NgbModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [WordpressService, CacheService],
+  providers: [{provide: IContentService, useClass: WordpressService}, CacheService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

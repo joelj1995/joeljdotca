@@ -6,12 +6,13 @@ import { BlogError } from '../models/blog-error';
 import { Posts } from '../models/posts'
 import { WpPage } from '../wp-model/wp-page'
 import { WpPost } from '../wp-model/wp-post';
+import { IContentService } from './abc/content.service';
 import { CacheService } from './cache.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WordpressService {
+export class WordpressService implements IContentService {
 
   BASE_URL: string = `${environment.wpBaseUrl}/wordpress/index.php/wp-json/wp/v2`
 

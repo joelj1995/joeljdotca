@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { WordpressService } from '../services/wordpress.service';
+import { IContentService } from '../services/abc/content.service';
 import { WpPage } from '../wp-model/wp-page';
 
 @Component({
@@ -11,7 +11,7 @@ import { WpPage } from '../wp-model/wp-page';
 export class PageViewComponent implements OnInit {
 
   constructor(
-    private wordpressService: WordpressService,
+    private contentService: IContentService,
     private route: ActivatedRoute
   ) { }
 
@@ -21,7 +21,7 @@ export class PageViewComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.slug = params['slug'];
-      this.wordpressService.getPage(this.slug).subscribe(data => {
+      this.contentService.getPage(this.slug).subscribe(data => {
         if (data.length > 0) {
           this.page = data[0];
         }
