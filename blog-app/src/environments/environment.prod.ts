@@ -2,6 +2,7 @@ export const environment = {
   production: true,
   wpBaseUrl: '',
   features: {
-    SUBSCRIBE: true
+    SUBSCRIBE: true,
+    CONTENTFUL: false
   }
 };
