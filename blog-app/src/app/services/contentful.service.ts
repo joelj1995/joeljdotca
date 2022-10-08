@@ -71,7 +71,7 @@ export class ContentfulService implements IContentService {
   private extractExcerpt(htmlString: string): string {
     var tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlString;
-    var extractedText = tempDiv.textContent || tempDiv.innerText;
+    var extractedText = tempDiv.querySelector('p')?.textContent || '';
     return `<p>${extractedText.slice(0, 287)} [&hellip;]</p>`;
   }
 }
