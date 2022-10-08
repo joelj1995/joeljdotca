@@ -1,15 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { from, map, Observable, of } from 'rxjs';
 import { BlogError } from '../models/blog-error';
 import { Page } from '../models/page';
 import { Post } from '../models/post';
 import { Posts } from '../models/posts';
 import { IContentService } from './abc/content.service';
+import { createClient, Entry } from 'contentful';
+import { environment } from 'src/environments/environment';
+import { CfPost } from '../contentful-model/post';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContentfulService implements IContentService {
+
+  private client = createClient({space: environment.contentfulSpace, accessToken: environment.contentfulAccessToken});
+
+  private convertPost = (postData: Entry<CfPost>) => { return {slug: postData.fields.slug, title: postData.fields.title, content: postData.fields.legacyWordpressContent, excerpt: this.extractExcerpt(postData.fields.legacyWordpressContent), date: new Date(postData.fields.published) } as Post};
 
   constructor() { }
 
@@ -18,10 +27,23 @@ export class ContentfulService implements IContentService {
   }
 
   getPosts(page: number, perPage: number): Observable<Posts | BlogError> {
-    return of({totalPages: 0, posts: []} as Posts);
+    let promise = this.client.getEntries<CfPost>().then(cfPosts => cfPosts.items.map(this.convertPost));
+    return from(promise).pipe(map(posts => {
+      return {
+        posts: posts,
+        totalPages: posts.length
+      } as Posts;
+    }));
   }
 
   getPost(slug: string): Observable<Post[]> {
     return of([]);
+  }
+
+  private extractExcerpt(htmlString: string): string {
+    var tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlString;
+    var extractedText = tempDiv.textContent || tempDiv.innerText;
+    return `<p>${extractedText.slice(0, 287)} [&hellip;]</p>`;
   }
 }
