@@ -27,11 +27,11 @@ export class ContentfulService implements IContentService {
   }
 
   getPosts(page: number, perPage: number): Observable<Posts | BlogError> {
-    let promise = this.client.getEntries<CfPost>().then(cfPosts => cfPosts.items.map(this.convertPost));
-    return from(promise).pipe(map(posts => {
+    let promise = this.client.getEntries<CfPost>({ limit: perPage, skip: (page-1)*perPage, order: '-fields.published', content_type: 'post' });
+    return from(promise).pipe(map(cfPosts => {
       return {
-        posts: posts,
-        totalPages: posts.length
+        posts: cfPosts.items.map(this.convertPost),
+        totalPages: cfPosts.total
       } as Posts;
     }));
   }
