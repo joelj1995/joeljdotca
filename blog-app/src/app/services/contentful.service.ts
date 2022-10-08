@@ -9,6 +9,8 @@ import { createClient, Entry } from 'contentful';
 import { environment } from 'src/environments/environment';
 import { CfPost } from '../contentful-model/post';
 import { CfPage } from '../contentful-model/page';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import { Document } from "@contentful/rich-text-types";
 
 @Injectable({
   providedIn: 'root'
@@ -18,22 +20,30 @@ export class ContentfulService implements IContentService {
   private client = createClient({space: environment.contentfulSpace, accessToken: environment.contentfulAccessToken});
 
   private convertPost = (postData: Entry<CfPost>) => { 
-    return {
+    let post = {
       slug: postData.fields.slug, 
       title: postData.fields.title, 
       content: postData.fields.legacyWordpressContent, 
       excerpt: this.extractExcerpt(postData.fields.legacyWordpressContent), 
       date: new Date(postData.fields.published) 
-    } as Post
+    } as Post;
+    if (postData.fields.content) {
+      post.content = documentToHtmlString(postData.fields.content as Document);
+      post.excerpt = this.extractExcerpt(post.content);
+    }
+    return post;
   };
 
-  private convertPage = (postData: Entry<CfPage>) => { 
-    return {
-      slug: postData.fields.slug, 
-      title: postData.fields.title, 
-      content: postData.fields.legacyWordpressContent, 
-      excerpt: this.extractExcerpt(postData.fields.legacyWordpressContent)
-    } as Post
+  private convertPage = (pageData: Entry<CfPage>) => { 
+    let page = {
+      slug: pageData.fields.slug, 
+      title: pageData.fields.title, 
+      content: pageData.fields.legacyWordpressContent, 
+    } as Page;
+    if (pageData.fields.content) {
+      page.content = documentToHtmlString(pageData.fields.content as Document);
+    }
+    return page;
   };
 
   constructor() { }
