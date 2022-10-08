@@ -8,8 +8,7 @@ import { IContentService } from './abc/content.service';
 import { createClient, Entry } from 'contentful';
 import { environment } from 'src/environments/environment';
 import { CfPost } from '../contentful-model/post';
-
-
+import { CfPage } from '../contentful-model/page';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +17,30 @@ export class ContentfulService implements IContentService {
 
   private client = createClient({space: environment.contentfulSpace, accessToken: environment.contentfulAccessToken});
 
-  private convertPost = (postData: Entry<CfPost>) => { return {slug: postData.fields.slug, title: postData.fields.title, content: postData.fields.legacyWordpressContent, excerpt: this.extractExcerpt(postData.fields.legacyWordpressContent), date: new Date(postData.fields.published) } as Post};
+  private convertPost = (postData: Entry<CfPost>) => { 
+    return {
+      slug: postData.fields.slug, 
+      title: postData.fields.title, 
+      content: postData.fields.legacyWordpressContent, 
+      excerpt: this.extractExcerpt(postData.fields.legacyWordpressContent), 
+      date: new Date(postData.fields.published) 
+    } as Post
+  };
+
+  private convertPage = (postData: Entry<CfPage>) => { 
+    return {
+      slug: postData.fields.slug, 
+      title: postData.fields.title, 
+      content: postData.fields.legacyWordpressContent, 
+      excerpt: this.extractExcerpt(postData.fields.legacyWordpressContent)
+    } as Post
+  };
 
   constructor() { }
 
   getPage(slug: string): Observable<Page[]> {
-    return of([]);
+    let promise = this.client.getEntries<CfPage>({ 'fields.slug[match]': slug, content_type: 'page' });
+    return from(promise).pipe(map(cfPosts => cfPosts.items.map(this.convertPage)));
   }
 
   getPosts(page: number, perPage: number): Observable<Posts | BlogError> {
