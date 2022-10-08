@@ -14,6 +14,11 @@ import { PostViewComponent } from './post-view/post-view.component';
 import { PageViewComponent } from './page-view/page-view.component';
 import { CacheService } from './services/cache.service';
 import { SubscribeComponent } from './subscribe/subscribe.component';
+import { IContentService } from './services/abc/content.service';
+import { environment } from 'src/environments/environment';
+import { ContentfulService } from './services/contentful.service';
+
+let useContentful: boolean = environment.features.CONTENTFUL;
 
 const routes: Routes = [
   { path: '', component: BlogRollComponent },
@@ -21,6 +26,7 @@ const routes: Routes = [
   { path: 'pages/:slug', component: PageViewComponent },
   { path: 'blog/:slug', component: PostViewComponent }
 ]; // sets up routes constant where you define your routes
+
 
 @NgModule({
   declarations: [
@@ -39,7 +45,7 @@ const routes: Routes = [
     NgbModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [WordpressService, CacheService],
+  providers: [{provide: IContentService, useClass: useContentful ? ContentfulService : WordpressService}, CacheService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { WordpressService } from '../services/wordpress.service';
-import { WpPost } from '../wp-model/wp-post';
+import { Post } from '../models/post';
+import { IContentService } from '../services/abc/content.service';
 
 @Component({
   selector: 'app-post-view',
@@ -11,11 +11,11 @@ import { WpPost } from '../wp-model/wp-post';
 export class PostViewComponent implements OnInit {
 
   constructor(
-    private wordpressService: WordpressService,
+    private contentService: IContentService,
     private route: ActivatedRoute
   ) { }
 
-  post: WpPost | null = null;
+  post: Post | null = null;
   slug!: string;
 
   notFound: boolean = false;
@@ -25,7 +25,7 @@ export class PostViewComponent implements OnInit {
       this.post = null;
       this.notFound = false;
       this.slug = params['slug'];
-      this.wordpressService.getPost(this.slug).subscribe(data => {
+      this.contentService.getPost(this.slug).subscribe(data => {
         if (data.length > 0) {
           this.post = data[0];
         } else {
