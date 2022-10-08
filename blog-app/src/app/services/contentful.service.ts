@@ -37,7 +37,8 @@ export class ContentfulService implements IContentService {
   }
 
   getPost(slug: string): Observable<Post[]> {
-    return of([]);
+    let promise = this.client.getEntries<CfPost>({ 'fields.slug[match]': slug, content_type: 'post' });
+    return from(promise).pipe(map(cfPosts => cfPosts.items.map(this.convertPost)));
   }
 
   private extractExcerpt(htmlString: string): string {
