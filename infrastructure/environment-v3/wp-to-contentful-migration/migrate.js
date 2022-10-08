@@ -2,8 +2,8 @@ console.log('Migrating Wordpress content to contentful');
 
 const yargs = require("yargs");
 const axios = require("axios");
+const cheerio = require('cheerio');
 const contentful = require('contentful-management');
-const util = require('util')
 
 const options = yargs
   .usage('Usage: -w <wp-base-path> -c <contentful-api-key>')
@@ -20,6 +20,7 @@ const existingContent = {
   'page': [],
   'post': []
 }
+const legacyImages = new Map();
 
 async function migrateContent(contentType, entryData) {
   const space = await asyncSpace;
@@ -57,7 +58,7 @@ function wordpressPostToCfEntry(data) {
   return {
     fields: {
       slug: cfField(data.slug),
-      legacyWordpressContent: cfField(data.content.rendered),
+      legacyWordpressContent: cfField(replaceImageUrls(data.content.rendered)),
       title: cfField(data.title.rendered),
       published: cfField(data.date_gmt)
     }
@@ -77,7 +78,7 @@ function wordpressPageToCfEntry(data) {
   return {
     fields: {
       slug: cfField(data.slug),
-      legacyWordpressContent: cfField(data.content.rendered),
+      legacyWordpressContent: cfField(replaceImageUrls(data.content.rendered)),
       title: cfField(data.title.rendered),
     }
   };
@@ -92,15 +93,35 @@ function migratePages() {
     })
 }
 
+function replaceImageUrls(htmlString) {
+  const $ = cheerio.load(htmlString);
+  $('img').each(function(i) {
+    const imgFileName = $(this).attr('src').split('/').pop();
+    const legacyImage = legacyImages[imgFileName];
+    if (legacyImage) {
+      $(this).attr('src', 'https:' + legacyImage.url);
+      $(this).attr("data-cf-entry", legacyImage.id);
+    }
+  });
+  return $.html();
+}
+
 asyncSpace.then(space => {
   space.getEnvironment('master').then(environment => {
-    environment.getEntries().then(entries => {
+    environment.getEntries()
+    .then(entries => {
       entries.items.forEach(entry => {
         const entryType = entry.sys.contentType.sys.id;
         const slug = entry.fields.slug['en-US'];
         const id = entry.sys.id;
         existingContent[entryType].push({slug, id});
       });
+      return environment.getAssets();
+    })
+    .then(assets => {
+      assets.items.forEach(asset => {
+        legacyImages[asset.fields.file['en-US'].fileName] = {url: asset.fields.file['en-US'].url, id: asset.sys.id};
+      })
       migratePages();
       migratePosts();
     });
