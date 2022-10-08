@@ -18,7 +18,7 @@ import { IContentService } from './services/abc/content.service';
 import { environment } from 'src/environments/environment';
 import { ContentfulService } from './services/contentful.service';
 
-let useContentful: boolean = environment.features.CONTENTFUL;
+let useContentful: boolean = environment.features.CONTENTFUL || (localStorage.getItem('CONTENTFUL_ENABLED') != null);
 
 const routes: Routes = [
   { path: '', component: BlogRollComponent },
