@@ -20,6 +20,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '18.x'
+
+      - name: Set server info
+        run: ./infrastructure/environment-v3/set-server-info.sh "App Service" '${{github.sha}}'
+        shell: bash
       
       - name: Build SPA
         working-directory: ./blog-app
