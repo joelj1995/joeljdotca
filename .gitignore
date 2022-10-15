@@ -1,3 +1,5 @@
 joeljca
 testjoeljca
 wordpress/wp-config.php
+blog-server/node_modules
+blog-server/dist
