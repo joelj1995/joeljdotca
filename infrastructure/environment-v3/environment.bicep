@@ -63,6 +63,7 @@ resource sites_joeljca_name_www_joelj_ca 'Microsoft.Web/sites/hostNameBindings@2
 
 resource sites_joeljca_name_joelj_ca 'Microsoft.Web/sites/hostNameBindings@2022-03-01' = {
   parent: appService
+  dependsOn: [sites_joeljca_name_www_joelj_ca]
   name: 'joelj.ca'
   properties: {
     siteName: 'wapp-joeljca'
