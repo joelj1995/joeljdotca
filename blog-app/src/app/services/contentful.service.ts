@@ -28,7 +28,13 @@ export class ContentfulService implements IContentService {
       date: new Date(postData.fields.published) 
     } as Post;
     if (postData.fields.content) {
-      post.content = documentToHtmlString(postData.fields.content as Document);
+      let options = {
+        renderNode: {
+          'embedded-asset-block': (node: any) =>
+            `<img class="img-fluid" src="${node.data.target.fields.file.url}"/>`
+        }
+      }
+      post.content = documentToHtmlString(postData.fields.content as Document, options);
       post.excerpt = this.extractExcerpt(post.content);
     }
     return post;
