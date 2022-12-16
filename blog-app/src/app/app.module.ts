@@ -17,6 +17,7 @@ import { SubscribeComponent } from './subscribe/subscribe.component';
 import { IContentService } from './services/abc/content.service';
 import { environment } from 'src/environments/environment';
 import { ContentfulService } from './services/contentful.service';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 let useContentful: boolean = environment.features.CONTENTFUL || (localStorage.getItem('CONTENTFUL_ENABLED') != null);
 
@@ -36,7 +37,8 @@ const routes: Routes = [
     BlogRollComponent,
     PostViewComponent,
     PageViewComponent,
-    SubscribeComponent
+    SubscribeComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
