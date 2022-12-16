@@ -42,8 +42,7 @@ const routes: Routes = [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule,
-    RouterModule.forRoot(routes)
+    NgbModule
   ],
   providers: [{provide: IContentService, useClass: useContentful ? ContentfulService : WordpressService}, CacheService],
   bootstrap: [AppComponent]

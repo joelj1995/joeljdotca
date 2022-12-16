@@ -21,18 +21,8 @@ export class PostViewComponent implements OnInit {
   notFound: boolean = false;
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.post = null;
-      this.notFound = false;
-      this.slug = params['slug'];
-      this.contentService.getPost(this.slug).subscribe(data => {
-        if (data.length > 0) {
-          this.post = data[0];
-        } else {
-          this.notFound = true;
-        }
-      });
-    })
+    const posts = this.route.snapshot.data['posts'] as Post[];
+    this.post = posts[0];
   }
 
 }
