@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { filter, map, startWith, switchMap, tap } from 'rxjs';
 import { BlogError } from '../models/blog-error';
 import { Posts } from '../models/posts';
 import { IContentService } from '../services/abc/content.service';
@@ -11,6 +12,8 @@ import { IContentService } from '../services/abc/content.service';
 })
 export class BlogRollComponent implements OnInit {
 
+  loading: boolean = true;
+
   constructor(
     private contentService: IContentService,
     private route: ActivatedRoute
@@ -18,31 +21,16 @@ export class BlogRollComponent implements OnInit {
 
   readonly perPage: number = 5;
   currentPage: number = 1;
-  posts: Posts = {
-    posts: [],
-    totalPages: 0
-  } as Posts;
 
-  loading: boolean = true;
+  posts$ = this.route.queryParams.pipe(
+    tap(() => this.loading = true),
+    map(params => (+params['page'] ? +params['page'] : 1) as number),
+    tap(page => this.currentPage = page),
+    switchMap(page => this.contentService.getPosts(page, this.perPage)),
+    map(posts => posts as Posts),
+    tap(() => this.loading = false)
+  );
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.loading = true;
-      if (Number(params['page'])) {
-        this.currentPage = Number(params['page']);
-      } else {
-        this.currentPage = 1;
-      }
-      this.contentService.getPosts(this.currentPage, this.perPage)
-        .subscribe({
-          next: data => {
-            this.posts = <Posts>data;
-            this.loading = false;
-          },
-          error: err => console.error(err.message)
-        }
-      );
-    })
-  }
+  ngOnInit(): void { }
 
 }
