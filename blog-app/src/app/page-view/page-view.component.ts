@@ -11,22 +11,13 @@ import { IContentService } from '../services/abc/content.service';
 export class PageViewComponent implements OnInit {
 
   constructor(
-    private contentService: IContentService,
     private route: ActivatedRoute
   ) { }
 
   page!: Page;
-  slug!: string;
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.slug = params['slug'];
-      this.contentService.getPage(this.slug).subscribe(data => {
-        if (data.length > 0) {
-          this.page = data[0];
-        }
-      });
-    })
+    this.page = this.route.snapshot.data['pages'][0];
   }
 
 }
