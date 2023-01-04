@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  revision: string = ''; // (window as any).serverInfo.revision;
+  revision: string = '';
 
   constructor() { }
 
