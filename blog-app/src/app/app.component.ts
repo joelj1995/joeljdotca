@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private monitoring: MonitoringService, private router: Router) {}
 
   ngOnInit(): void {
-    this.monitoring.checkIn();
+    // if (typeof window !== 'undefined') this.monitoring.checkIn();
     this.router.events.pipe(
       filter(event => event instanceof RouterEvent)
     )

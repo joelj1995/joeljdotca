@@ -41,7 +41,7 @@ const routes: Routes = [
     SpinnerComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     NgbModule
