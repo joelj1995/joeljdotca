@@ -8,9 +8,16 @@ import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
 
-
 const domino = require('domino');
-global['window'] = domino.createWindow('', 'SERVER');
+const fs = require('fs');
+const path = require('path');
+
+const template = fs
+  .readFileSync(path.join(join(process.cwd(), 'dist/blog-app/browser'), 'index.html'))
+  .toString();
+
+global['window'] = domino.createWindow(template, 'SERVER');
+global['document'] = window.document;
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
