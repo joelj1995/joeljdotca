@@ -19,16 +19,6 @@ import { environment } from 'src/environments/environment';
 import { ContentfulService } from './services/contentful.service';
 import { SpinnerComponent } from './spinner/spinner.component';
 
-let useContentful: boolean = environment.features.CONTENTFUL || (localStorage.getItem('CONTENTFUL_ENABLED') != null);
-
-const routes: Routes = [
-  { path: '', component: BlogRollComponent },
-  { path: 'subscribe', component: SubscribeComponent },
-  { path: 'pages/:slug', component: PageViewComponent },
-  { path: 'blog/:slug', component: PostViewComponent }
-]; // sets up routes constant where you define your routes
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,12 +31,12 @@ const routes: Routes = [
     SpinnerComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     NgbModule
   ],
-  providers: [{provide: IContentService, useClass: useContentful ? ContentfulService : WordpressService}, CacheService],
+  providers: [{provide: IContentService, useClass: ContentfulService }, CacheService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

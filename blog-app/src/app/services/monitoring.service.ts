@@ -14,14 +14,14 @@ export class MonitoringService {
   });
 
   constructor() {
-    if (environment.production) {
+    if (window.scrollY && environment.production) {
       this.insights.loadAppInsights();
     }
   }
 
   checkIn() {
     try {
-      this.insights.trackEvent({name: 'CheckIn'}, (<any>window).serverInfo)
+      // this.insights.trackEvent({name: 'CheckIn'}, (<any>window).serverInfo)
     }
     catch (e) {
       console.error('Failed to check in', e);

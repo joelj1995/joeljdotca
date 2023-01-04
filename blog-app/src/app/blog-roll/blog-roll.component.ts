@@ -26,7 +26,9 @@ export class BlogRollComponent implements OnInit {
     tap(() => this.loading = true),
     map(params => (+params['page'] ? +params['page'] : 1) as number),
     tap(page => this.currentPage = page),
-    tap(() => window.scrollTo(0, 0)),
+    tap(() => {
+      if (window.scrollTo !== undefined) window.scrollTo(0, 0);
+    }),
     switchMap(page => this.contentService.getPosts(page, this.perPage)),
     map(posts => posts as Posts),
     tap(() => this.loading = false)
