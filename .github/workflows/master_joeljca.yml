@@ -52,7 +52,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: blog-app
-          path: ./blog-app
+          path: |
+            ./blog-app/ecosystem.config.js
+            ./blog-app/dist/*
 
   deploy-to-v3:
     runs-on: ubuntu-latest
