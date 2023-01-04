@@ -46,20 +46,13 @@ jobs:
         working-directory: ./blog-app
         run: |
           npm install
-          npm run build
-
-      - name: Build server
-        working-directory: ./blog-server
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm run build:server
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: blog-server
-          path: ./blog-server
+          name: blog-app
+          path: ./blog-app
 
   deploy-to-v3:
     runs-on: ubuntu-latest
