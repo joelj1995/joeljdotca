@@ -14,7 +14,7 @@ export class MonitoringService {
   });
 
   constructor() {
-    if (environment.production) {
+    if (window.scrollY && environment.production) {
       this.insights.loadAppInsights();
     }
   }

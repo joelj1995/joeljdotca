@@ -19,7 +19,8 @@ const routes: Routes = [
     path: 'blog/:slug', 
     component: PostViewComponent,
     resolve: { posts: PostResolver }
-  }
+  },
+  { path: '**', component: BlogRollComponent }
 ]; // sets up routes constant where you define your routes
 
 @NgModule({
