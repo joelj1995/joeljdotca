@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { environment } from 'src/environments/environment';
+import { StrengthJournalConstants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,15 @@ export class MonitoringService {
   });
 
   constructor() {
-    if (window.scrollY && environment.production) {
+    if (!StrengthJournalConstants.isServer && environment.production) {
       this.insights.loadAppInsights();
     }
   }
 
   checkIn() {
     try {
-      // this.insights.trackEvent({name: 'CheckIn'}, (<any>window).serverInfo)
+      if (!StrengthJournalConstants.isServer)
+        this.insights.trackEvent({name: 'CheckIn'}, (<any>window).serverInfo);
     }
     catch (e) {
       console.error('Failed to check in', e);

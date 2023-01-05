@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs';
+import { StrengthJournalConstants } from './constants';
 import { MonitoringService } from './services/monitoring.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
   constructor(private monitoring: MonitoringService, private router: Router) {}
 
   ngOnInit(): void {
-    if (window.scrollY) this.monitoring.checkIn();
+    if (!StrengthJournalConstants.isServer) this.monitoring.checkIn();
     this.router.events.pipe(
       filter(event => event instanceof RouterEvent)
     )
