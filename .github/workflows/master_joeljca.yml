@@ -53,8 +53,8 @@ jobs:
         with:
           name: blog-app
           path: |
-            ./blog-app/ecosystem.config.js
-            ./blog-app/dist/*
+            ./blog-app/*
+            !./blog-app/node_modules
 
   deploy-to-v3:
     runs-on: ubuntu-latest
