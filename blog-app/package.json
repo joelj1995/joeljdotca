@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "pm2 start ecosystem.config.js",
+    "start": "pm2 start ecosystem.config.js --no-daemon",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
