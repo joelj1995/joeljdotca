@@ -1,3 +1,3 @@
 export const StrengthJournalConstants = {
-  isServer: !!window.scrollY
+  isServer: (typeof window == 'undefined') || !window.scrollY
 }
