@@ -2,3 +2,9 @@ a[disabled] {
   pointer-events: none;
   cursor: default;
 }
+
+.blog-post {
+  background-color: white !important;
+  padding: 1em;
+  border-radius: 7px;
+}
