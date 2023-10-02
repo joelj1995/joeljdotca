@@ -10,6 +10,7 @@ import { AppServerModule } from './src/main.server';
 
 const domino = require('domino');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 
 const template = fs
@@ -42,6 +43,9 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
+    const resOrigin = `${os.hostname()} ${process.cwd()}`;
+    res.setHeader('X-Origin-Node', resOrigin);
+    res.cookie('originnode', resOrigin, { maxAge: 9000, httpOnly: false });
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
   });
 

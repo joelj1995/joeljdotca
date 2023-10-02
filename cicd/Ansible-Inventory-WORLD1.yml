@@ -1,0 +1,10 @@
+web:
+  hosts:
+    kane:
+      ansible_host: 45.79.116.212
+    lee:
+      ansible_host: 45.79.116.213
+  vars:
+    ansible_user: root
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_password: '{{ root_password }}'
