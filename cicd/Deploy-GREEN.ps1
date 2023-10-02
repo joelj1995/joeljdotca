@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory=$true)][string] $RootPassword
 )
 
-Write-Host 'In Deploy-BLUE'
+Write-Host 'In Deploy-GREEN'
 
 $CICDPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRootPath = Split-Path -Parent $CICDPath

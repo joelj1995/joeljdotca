@@ -1,0 +1,8 @@
+- hosts: gateway
+  tasks:
+    - name: set hostname
+      hostname:
+        name: '{{ inventory_hostname }}'
+
+    - name: install nginx
+      apt: name=nginx

@@ -8,3 +8,14 @@ web:
     ansible_user: root
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
     ansible_password: '{{ root_password }}'
+
+gateway:
+  hosts:
+    lb1:
+      ansible_host: 172.105.22.44
+    lb2:
+      ansible_host: 172.105.18.168
+  vars:
+    ansible_user: root
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_password: '{{ root_password }}'

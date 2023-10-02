@@ -1,0 +1,21 @@
+- hosts: gateway
+  tasks:
+
+  - name: copy http configuration
+    copy:
+      src: ../gateway/joeljca.conf
+      dest: /etc/nginx/conf.d/
+
+  - name: copy blue site configuration
+    copy:
+      src: ../gateway/joeljca.site.blue
+      dest: /etc/nginx/sites-available/
+
+  - name: copy green site configuration
+    copy:
+      src: ../gateway/joeljca.site.green
+      dest: /etc/nginx/sites-available/
+
+  - name: activate site
+    shell:
+      cmd: "(rm /etc/nginx/sites-enabled/joeljca.site || true) && ln -s /etc/nginx/sites-available/joeljca.site.{{ slot }} /etc/nginx/sites-enabled/joeljca.site && nginx -s reload"
