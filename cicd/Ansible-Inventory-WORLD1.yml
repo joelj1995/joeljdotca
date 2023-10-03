@@ -2,8 +2,10 @@ web:
   hosts:
     kane:
       ansible_host: 45.79.116.212
+      internal_ip4: 192.0.2.5
     lee:
       ansible_host: 45.79.116.213
+      internal_ip4: 192.0.2.6
   vars:
     ansible_user: root
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
@@ -13,8 +15,10 @@ gateway:
   hosts:
     lb1:
       ansible_host: 172.105.22.44
+      internal_ip4: 192.0.2.3
     lb2:
       ansible_host: 172.105.18.168
+      internal_ip4: 192.0.2.4
   vars:
     ansible_user: root
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
