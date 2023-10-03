@@ -20,14 +20,14 @@ else {
 }
 
 # Configure Hosts
-$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Configure-Web.yml --extra-vars `"root_password=$RootPassword`""
+$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Configure.yml --extra-vars `"root_password=$RootPassword`""
 
 Write-Host $Cmd.Replace($RootPassword, '***')
 
 Invoke-Expression $Cmd
 
 # Deploy to Hosts
-$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Deploy-Web.yml --extra-vars `"root_password=$RootPassword slot_port=$Port slot=$Slot`""
+$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Deploy.yml --extra-vars `"root_password=$RootPassword slot_port=$Port slot=$Slot`""
 
 Write-Host $Cmd.Replace($RootPassword, '***')
 

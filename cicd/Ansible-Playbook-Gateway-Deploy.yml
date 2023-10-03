@@ -3,7 +3,7 @@
 
   - name: copy http configuration
     copy:
-      src: ../gateway/joeljca.conf
+      src: ../tmp/joeljca.conf
       dest: /etc/nginx/conf.d/
 
   - name: copy blue site configuration

@@ -5,13 +5,14 @@ $Inventory = ansible-inventory -i $CICDPath/Ansible-Inventory-WORLD1.yml --list 
 
 $WebHosts = $Inventory.web.hosts
 
-$EnrichedWebHosts = $WebHosts | Select-Object @{name='host'; e={$_}}, @{name='ipv4'; e={$Inventory._meta.hostvars.$_.internal_ip4}}
+$ActiveWebHosts = $WebHosts | Select-Object -Property `
+    @{name='host';   e={$_}}, 
+    @{name='ipv4';   e={$Inventory._meta.hostvars.$_.internal_ip4}},
+    @{name='ignore'; e={$Inventory._meta.hostvars.$_.inactive}} ` 
+    | Where-Object { -not $_.ignore }
 
-$Blue = $EnrichedWebHosts | ForEach { return "    $($_.ipv4):1024 # $($_.Host)" } | Join-String -Separator "`n"
-$Green = $EnrichedWebHosts | ForEach { return "    $($_.ipv4):1025 # $($_.Host)" } | Join-String -Separator "`n"
-
-$BluePort = 1024;
-$GreenPort = 1025;
+$Blue  = $ActiveWebHosts | ForEach { return "    server $($_.ipv4):1024; # $($_.Host)" } | Join-String -Separator "`n"
+$Green = $ActiveWebHosts | ForEach { return "    server $($_.ipv4):1025; # $($_.Host)" } | Join-String -Separator "`n"
 
 $ConfigString =@'
 upstream joeljcablue {
@@ -23,4 +24,4 @@ __GREEN__
 }
 '@
 
-Write-Host $ConfigString.replace('__BLUE__', $Blue).replace('__GREEN__', $Green)
+Write-Output $ConfigString.replace('__BLUE__', $Blue).replace('__GREEN__', $Green)
