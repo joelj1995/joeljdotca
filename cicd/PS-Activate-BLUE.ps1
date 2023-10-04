@@ -1,7 +1,4 @@
-[CmdletBinding()]
-param(
-    [Parameter(Mandatory=$true)][string] $RootPassword
-)
+$RootPassword = Get-AzKeyVaultSecret -VaultName "joeljcakeys" -Name "LinodeRootPasswordWorld1" -AsPlainText
 
 Write-Host 'In Activate-BLUE'
 
