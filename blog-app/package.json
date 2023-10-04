@@ -9,7 +9,7 @@
     "test": "ng test",
     "dev:ssr": "ng run blog-app:serve-ssr",
     "serve:ssr": "node dist/blog-app/server/main.js",
-    "build:ssr": "ng build && ng run blog-app:server",
+    "build:ssr": "git rev-parse --short HEAD > ./src/assets/version.txt && ng build && ng run blog-app:server",
     "prerender": "ng run blog-app:prerender"
   },
   "private": true,

@@ -17,6 +17,10 @@ const template = fs
   .readFileSync(path.join(join(process.cwd(), 'dist/blog-app/browser'), 'index.html'))
   .toString();
 
+const version = fs
+  .readFileSync(path.join(join(process.cwd(), 'dist/blog-app/browser/assets'), 'version.txt'))
+  .toString().trim();
+
 global['window'] = domino.createWindow(template, 'SERVER');
 global['document'] = window.document;
 
@@ -43,7 +47,7 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    const resOrigin = `${os.hostname()} ${process.cwd()}`;
+    const resOrigin = `${os.hostname()} ${process.cwd()} ${version}`;
     res.setHeader('X-Origin-Node', resOrigin);
     res.cookie('originnode', resOrigin, { maxAge: 9000, httpOnly: false });
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });

@@ -1,2 +1,3 @@
 cicd/az.env
 tmp
+blog-app/src/assets/version.txt
