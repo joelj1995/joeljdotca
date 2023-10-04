@@ -5,6 +5,7 @@ Write-Host 'In Activate-GREEN'
 $CICDPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRootPath = Split-Path -Parent $CICDPath
 
+& ${CICDPath}/PS-Get-Certificate-2022.ps1 $RepoRootPath
 $NginxConfigContent = & ${CICDPath}/PS-Generate-Nginx-Upstreams.ps1
 
 Out-File -FilePath $RepoRootPath/tmp/joeljca.conf -InputObject $NginxConfigContent

@@ -55,3 +55,20 @@ JJ_AZ_APP_ID: Azure Application ID
 JJ_AZ_TENANT_ID: Azure Tenant ID
 
 In a WSL context, make sure to export these globally from the Linux Shell. WSL doesn't appear to be able to read the Windows variables.
+
+## Key Import 
+
+We need to to some CLI nastiness in order to import multiple lines.
+
+`PS C:\Users\colte\OneDrive\Desktop> $RawSecret =  Get-Content "key.crt" -Raw`
+
+`PS C:\Users\colte\OneDrive\Desktop> $SecureSecret = ConvertTo-SecureString -String $RawSecret -AsPlainText -Force`
+
+`PS C:\Users\colte\OneDrive\Desktop> $secret = Set-AzKeyVaultSecret -VaultName "joeljcakeys" -Name "joeljca-2022-crt" -SecretValue $SecureSecret`
+
+`PS C:\Users\colte\OneDrive\Desktop> $RawSecret =  Get-Content "key.rsa" -Raw`
+
+`PS C:\Users\colte\OneDrive\Desktop> $SecureSecret = ConvertTo-SecureString -String $RawSecret -AsPlainText -Force`
+
+`PS C:\Users\colte\OneDrive\Desktop> $secret = Set-AzKeyVaultSecret -VaultName "joeljcakeys" -Name "joeljca-2022-rsa" -SecretValue $SecureSecret`
+`

@@ -1,6 +1,16 @@
 - hosts: gateway
   tasks:
 
+  - name: copy TLS certificate
+    copy:
+      src: ../tmp/joeljca-2022.crt
+      dest: /etc/ssl/certs/
+
+  - name: copy TLS key
+    copy:
+      src: ../tmp/joeljca-2022.rsa
+      dest: /etc/ssl/certs/
+
   - name: copy http configuration
     copy:
       src: ../tmp/joeljca.conf

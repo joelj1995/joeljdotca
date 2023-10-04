@@ -4,9 +4,9 @@ server {
 
     # SSL configuration
     #
-    # listen 443 ssl default_server;
-    # ssl_certificate /etc/ssl/certs/joeljca-2022.crt;
-    # ssl_certificate_key /etc/ssl/certs/joeljca-2022.rsa;
+    listen 443 ssl default_server;
+    ssl_certificate /etc/ssl/certs/joeljca-2022.crt;
+    ssl_certificate_key /etc/ssl/certs/joeljca-2022.rsa;
 
     server_name www.joelj.ca;
 
