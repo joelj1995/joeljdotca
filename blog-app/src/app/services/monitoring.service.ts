@@ -10,12 +10,13 @@ export class MonitoringService {
 
   private insights: ApplicationInsights = new ApplicationInsights({
     config: {
-      connectionString: 'InstrumentationKey=2140a7c5-ef38-4c09-a75d-1492a8936a02;IngestionEndpoint=https://canadacentral-1.in.applicationinsights.azure.com/;LiveEndpoint=https://canadacentral.livediagnostics.monitor.azure.com/'
+      connectionString: 'InstrumentationKey=0d4d1cac-2a4f-4201-af10-50855ff5422b;IngestionEndpoint=https://canadaeast-0.in.applicationinsights.azure.com/'
     }
   });
 
   constructor() {
     if (!StrengthJournalConstants.isServer && environment.production) {
+      console.info('Loading application insights.');
       this.insights.loadAppInsights();
     }
   }

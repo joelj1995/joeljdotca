@@ -49,7 +49,7 @@ export function app(): express.Express {
   server.get('*', (req, res) => {
     const resOrigin = `${os.hostname()} ${process.cwd()} ${version}`;
     res.setHeader('X-Origin-Node', resOrigin);
-    res.cookie('originnode', resOrigin, { maxAge: 9000, httpOnly: false });
+    res.cookie('originnode', resOrigin, { httpOnly: false });
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
   });
 
