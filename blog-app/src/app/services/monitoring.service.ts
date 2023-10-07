@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { environment } from 'src/environments/environment';
-import { StrengthJournalConstants } from '../constants';
+import { JoelJConstants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class MonitoringService {
   });
 
   constructor() {
-    if (!StrengthJournalConstants.isServer && environment.production) {
+    if (!JoelJConstants.isServer && environment.production) {
       console.info('Loading application insights.');
       this.insights.loadAppInsights();
     }
@@ -23,7 +23,7 @@ export class MonitoringService {
 
   checkIn() {
     try {
-      if (!StrengthJournalConstants.isServer)
+      if (!JoelJConstants.isServer)
         this.insights.trackEvent({name: 'CheckIn'}, (<any>window).serverInfo);
     }
     catch (e) {
