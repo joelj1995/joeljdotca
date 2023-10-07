@@ -18,6 +18,7 @@ import { IContentService } from './services/abc/content.service';
 import { environment } from 'src/environments/environment';
 import { ContentfulService } from './services/contentful.service';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     PostViewComponent,
     PageViewComponent,
     SubscribeComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

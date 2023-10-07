@@ -6,6 +6,7 @@ import { PostViewComponent } from './post-view/post-view.component';
 import { PageResolver } from './resolvers/page.resolver';
 import { PostResolver } from './resolvers/post.resolver';
 import { SubscribeComponent } from './subscribe/subscribe.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: '', component: BlogRollComponent },
@@ -20,7 +21,7 @@ const routes: Routes = [
     component: PostViewComponent,
     resolve: { posts: PostResolver }
   },
-  { path: '**', component: BlogRollComponent }
+  { path: '**', component: NotFoundComponent }
 ]; // sets up routes constant where you define your routes
 
 @NgModule({
