@@ -25,12 +25,12 @@ jobs:
         Set-PSRepository PSGallery -InstallationPolicy Trusted
         Install-Module -Name Az -Repository PSGallery -Force
     - name: Connect Azure account
-      working-directory: ./cicd
       shell: pwsh
       run: |
-        .\PS-Connect-Az-Account.ps1
+        ./cicd/PS-Connect-Az-Account.ps1
     - name: Do it live!
-      working-directory: ./cicd
+      working-directory: .
       shell: pwsh
       run: |
-        .\PS-Deploy-Main.ps1
+        mkdir tmp
+        ./cicd/PS-Deploy-Main.ps1
