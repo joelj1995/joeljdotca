@@ -17,7 +17,7 @@ export class FooterComponent implements OnInit {
     if (!JoelJConstants.isServer)
       return (window as any).serverInfo;
     else 
-      return { node: "ssr", slot: "ssr", version: "ssr" };
+      return { node: "ssr", slot: "ssr", version: "ssr", lb: "ssr" };
   }
 
 }

@@ -17,6 +17,7 @@ server {
 
     location / {
         proxy_pass http://joeljcagreen;
+        add_header Set-Cookie "originlb=${hostname}; Path=/";
     }
 }
 

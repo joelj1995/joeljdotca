@@ -16,7 +16,8 @@
       const originNode = ('; '+document.cookie).split(`; originnode=`).pop().split(';')[0];
       const decodedOriginNode = decodeURI(originNode);
       const serverParts = decodedOriginNode.split(' ');
-      window.serverInfo = { node: serverParts[0], slot: serverParts[1], version: serverParts[2] }
+      const originLb = ('; '+document.cookie).split(`; originlb=`).pop().split(';')[0];
+      window.serverInfo = { node: serverParts[0], slot: serverParts[1], version: serverParts[2], lb: originLb }
     }
   </script>
 </head>
