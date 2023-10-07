@@ -6,6 +6,8 @@ param(
     [Parameter(Mandatory=$true)][string] $RootPassword
 )
 
+$ErrorActionPreference = "Stop"
+
 Write-Host 'In Configure-And-Deploy-To-Slot'
 
 $Port = -1
@@ -20,15 +22,21 @@ else {
 }
 
 # Configure Hosts
-$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Configure.yml --extra-vars `"root_password=$RootPassword`""
+$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Configure.yml --extra-vars `"root_password=$RootPassword`"" + ';$?'
 
 Write-Host $Cmd.Replace($RootPassword, '***')
 
-Invoke-Expression $Cmd
+$Success = Invoke-Expression $Cmd
+if (-not $Success){
+    Write-Error "Command invocation failed"
+}
 
 # Deploy to Hosts
-$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Deploy.yml --extra-vars `"root_password=$RootPassword slot_port=$Port slot=$Slot`""
+$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Deploy.yml --extra-vars `"root_password=$RootPassword slot_port=$Port slot=$Slot`""  + ';$?'
 
 Write-Host $Cmd.Replace($RootPassword, '***')
 
-Invoke-Expression $Cmd
+$Success = Invoke-Expression $Cmd
+if (-not $Success){
+    Write-Error "Command invocation failed"
+}

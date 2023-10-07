@@ -1,3 +1,4 @@
+$ErrorActionPreference = "Stop"
 $CICDPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRootPath = Split-Path -Parent $CICDPath
 
