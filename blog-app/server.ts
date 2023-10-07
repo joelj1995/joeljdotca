@@ -38,6 +38,13 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  server.use((req, res, next) => {
+    const resOrigin = `${os.hostname()} ${process.cwd()} ${version}`;
+    res.setHeader('X-Origin-Node', resOrigin);
+    res.cookie('originnode', resOrigin, { httpOnly: false });
+    next();
+  });
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
@@ -47,9 +54,6 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    const resOrigin = `${os.hostname()} ${process.cwd()} ${version}`;
-    res.setHeader('X-Origin-Node', resOrigin);
-    res.cookie('originnode', resOrigin, { httpOnly: false });
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
   });
 
