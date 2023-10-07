@@ -10,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '18.x'
+    - name: Build server
+      working-directory: ./blog-app
+      run: |
+        npm install
+        npm run build:ssr
     - name: Write environment to global variables
       shell: bash
       run: |
