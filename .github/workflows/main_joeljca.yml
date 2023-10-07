@@ -10,3 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Echo back environment
+      shell: pwsh
+      run: Write-Host $($Env:JJ_AZ_SECRET.length -gt 0) $Env:JJ_AZ_APP_ID $Env:JJ_AZ_TENANT_ID
+    - name: Connect Azure account
+      shell: pwsh
+      run: ./cicd/PS-Connect-AZ-Account.ps1
