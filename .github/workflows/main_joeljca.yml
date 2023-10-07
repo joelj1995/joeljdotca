@@ -19,6 +19,11 @@ jobs:
     - name: (Sanity) echo back environment
       shell: pwsh
       run: Write-Host $($Env:JJ_AZ_SECRET.length -gt 0) $Env:JJ_AZ_APP_ID $Env:JJ_AZ_TENANT_ID
+    - name: Install AZ PS module
+      shell: pwsh
+      run: |
+        Set-PSRepository PSGallery -InstallationPolicy Trusted
+        Install-Module -Name Az -Repository PSGallery -Force
     - name: Connect Azure account
       working-directory: ./cicd
       shell: pwsh
