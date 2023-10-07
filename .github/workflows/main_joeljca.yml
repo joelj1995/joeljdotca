@@ -1,0 +1,12 @@
+name: Configure target hosts and deploy app to idle slot
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  deploy-linode:
+    environment: LinodeWorld1
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
