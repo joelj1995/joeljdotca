@@ -29,3 +29,8 @@ jobs:
       shell: pwsh
       run: |
         .\PS-Connect-Az-Account.ps1
+    - name: Do it live!
+      working-directory: ./cicd
+      shell: pwsh
+      run: |
+        .\PS-Deploy-Main.ps1
