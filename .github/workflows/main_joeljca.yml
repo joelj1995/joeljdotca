@@ -10,9 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Echo back environment
+    - name: Write environment to global variables
+      shell: bash
+      run: |
+        echo JJ_AZ_APP_ID=${{ vars.JJ_AZ_APP_ID }} >> "$GITHUB_ENV"
+        echo JJ_AZ_SECRET=${{ secrets.JJ_AZ_SECRET }} >> "$GITHUB_ENV"
+        echo JJ_AZ_TENANT_ID=${{ vars.JJ_AZ_TENANT_ID }} >> "$GITHUB_ENV"
+    - name: (Sanity) echo back environment
       shell: pwsh
       run: Write-Host $($Env:JJ_AZ_SECRET.length -gt 0) $Env:JJ_AZ_APP_ID $Env:JJ_AZ_TENANT_ID
     - name: Connect Azure account
+      working-directory: ./cicd
       shell: pwsh
-      run: ./cicd/PS-Connect-AZ-Account.ps1
+      run: |
+        .\PS-Connect-Az-Account.ps1
