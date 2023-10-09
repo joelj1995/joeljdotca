@@ -14,14 +14,6 @@ const os = require('os');
 const path = require('path');
 const appInsights = require('applicationinsights');
 
-if (process.env['APPLICATIONINSIGHTS_CONNECTION_STRING']) {
-  appInsights.setup()
-    .start();
-  console.log('Azure monitor configured');
-} else {
-  console.log('Application insights not configured.');
-};
-
 const template = fs
   .readFileSync(path.join(join(process.cwd(), 'dist/blog-app/browser'), 'index.html'))
   .toString();
@@ -29,6 +21,21 @@ const template = fs
 const version = fs
   .readFileSync(path.join(join(process.cwd(), 'dist/blog-app/browser/assets'), 'version.txt'))
   .toString().trim();
+
+const resOrigin = `${os.hostname()} ${process.cwd()} ${version}`;
+
+if (process.env['APPLICATIONINSIGHTS_CONNECTION_STRING']) {
+  appInsights.setup()
+    .start();
+  appInsights.defaultClient.commonProperties = {
+    node: os.hostname(),
+    slot: process.cwd(),
+    version: version
+  };
+  console.log('Azure monitor configured');
+} else {
+  console.log('Application insights not configured.');
+};
 
 global['window'] = domino.createWindow(template, 'SERVER');
 global['document'] = window.document;
@@ -49,7 +56,6 @@ export function app(): express.Express {
   server.set('views', distFolder);
 
   server.use((req, res, next) => {
-    const resOrigin = `${os.hostname()} ${process.cwd()} ${version}`;
     res.setHeader('X-Origin-Node', resOrigin);
     res.cookie('originnode', resOrigin, { httpOnly: false });
     next();
