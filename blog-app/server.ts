@@ -32,6 +32,7 @@ if (process.env['APPLICATIONINSIGHTS_CONNECTION_STRING']) {
     slot: process.cwd(),
     version: version
   };
+  appInsights.defaultClient.config.maxBatchIntervalMs = 100;
   console.log('Azure monitor configured');
 } else {
   console.log('Application insights not configured.');
