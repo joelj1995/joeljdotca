@@ -3,7 +3,7 @@
   <small>
     {{ serverInfo().node }} 
     {{ serverInfo().slot }} 
-    {{ serverInfo().version }}
+    <a [href]="'https://github.com/joelj1995/joeljdotca/commit/' + serverInfo().version">{{ serverInfo().version }}</a>
     {{ serverInfo().lb }}
   </small>
 </p>
