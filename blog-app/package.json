@@ -9,7 +9,7 @@
     "test": "ng test",
     "dev:ssr": "ng run blog-app:serve-ssr",
     "serve:ssr": "node dist/blog-app/server/main.js",
-    "build:ssr": "git rev-parse --short HEAD > ./src/assets/version.txt && ng build && ng run blog-app:server",
+    "build:ssr": "git rev-parse --short HEAD > ./src/assets/version.txt && ng build && ng run blog-app:server && echo { } > ./dist/applicationinsights.json",
     "prerender": "ng run blog-app:prerender"
   },
   "private": true,
@@ -30,6 +30,7 @@
     "@ng-bootstrap/ng-bootstrap": "^14.0.0",
     "@nguniversal/express-engine": "^15.0.0",
     "@popperjs/core": "^2.10.2",
+    "applicationinsights": "^2.8.0",
     "bootstrap": "^5.1.3",
     "contentful": "^9.2.5",
     "domino": "^2.1.6",

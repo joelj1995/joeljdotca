@@ -12,6 +12,15 @@ const domino = require('domino');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const appInsights = require('applicationinsights');
+
+if (process.env['APPLICATIONINSIGHTS_CONNECTION_STRING']) {
+  appInsights.setup()
+    .start();
+  console.log('Azure monitor configured');
+} else {
+  console.log('Application insights not configured.');
+};
 
 const template = fs
   .readFileSync(path.join(join(process.cwd(), 'dist/blog-app/browser'), 'index.html'))
@@ -27,6 +36,7 @@ global['document'] = window.document;
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+  
   const distFolder = join(process.cwd(), 'dist/blog-app/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
