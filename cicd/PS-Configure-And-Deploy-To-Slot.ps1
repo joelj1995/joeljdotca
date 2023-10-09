@@ -3,8 +3,11 @@ param(
     [Parameter(Mandatory=$true)][string] $RepoRootPath,
     [Parameter(Mandatory=$true)][string] $InventoryFile,
     [Parameter(Mandatory=$true)][string] $Slot,
-    [Parameter(Mandatory=$true)][string] $RootPassword
+    [Parameter(Mandatory=$true)][string] $RootPassword,
+    [Parameter(Mandatory=$true)][string] $NodeInsightsConnectionString
 )
+
+. $RepoRootPath/cicd/PS-Lib.ps1
 
 $ErrorActionPreference = "Stop"
 
@@ -22,21 +25,15 @@ else {
 }
 
 # Configure Hosts
-$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Configure.yml --extra-vars `"root_password=$RootPassword`"" + ';$?'
+$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Configure.yml --extra-vars `"root_password=$RootPassword`""
 
 Write-Host $Cmd.Replace($RootPassword, '***')
 
-$Success = Invoke-Expression $Cmd
-if (-not $Success){
-    Write-Error "Command invocation failed"
-}
+InvokeAndCheck $Cmd
 
 # Deploy to Hosts
-$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Deploy.yml --extra-vars `"root_password=$RootPassword slot_port=$Port slot=$Slot`""  + ';$?'
+$Cmd = "ansible-playbook -i $InventoryFile $RepoRootPath/cicd/Ansible-Playbook-Web-Deploy.yml --extra-vars `"root_password=$RootPassword slot_port=$Port slot=$Slot node_insights_connection_string='$NodeInsightsConnectionString'`""
 
-Write-Host $Cmd.Replace($RootPassword, '***')
+Write-Host $Cmd.Replace($RootPassword, '***').Replace($NodeInsightsConnectionString, '***');
 
-$Success = Invoke-Expression $Cmd
-if (-not $Success){
-    Write-Error "Command invocation failed"
-}
+InvokeAndCheck $Cmd

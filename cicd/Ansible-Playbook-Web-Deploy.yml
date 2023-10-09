@@ -5,8 +5,8 @@
     copy:
       src: ../blog-app/dist
       dest: /var/www/joelj.ca-{{ slot }}
-
+      
   - name: Start PM2 process
     shell:
       chdir: /var/www/joelj.ca-{{ slot }}
-      cmd: "(pm2 delete joeljca{{ slot }} || true) && PORT={{ slot_port }} pm2 start /var/www/joelj.ca-{{ slot }}/dist/blog-app/server/main.js --name joeljca{{ slot }} && pm2 save"
+      cmd: "(pm2 delete joeljca{{ slot }} || true) && APPLICATIONINSIGHTS_CONNECTION_STRING='{{ node_insights_connection_string }}' PORT={{ slot_port }} pm2 start /var/www/joelj.ca-{{ slot }}/dist/blog-app/server/main.js --name joeljca{{ slot }} && pm2 save"
