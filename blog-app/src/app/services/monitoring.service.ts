@@ -10,7 +10,7 @@ export class MonitoringService {
 
   private insights: ApplicationInsights = new ApplicationInsights({
     config: {
-      connectionString: 'InstrumentationKey=0d4d1cac-2a4f-4201-af10-50855ff5422b;IngestionEndpoint=https://canadaeast-0.in.applicationinsights.azure.com/'
+      connectionString: 'InstrumentationKey=53ce1e95-6141-4145-a44f-d397c894b625;IngestionEndpoint=https://canadaeast-0.in.applicationinsights.azure.com/'
     }
   });
 
