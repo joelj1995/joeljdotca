@@ -64,7 +64,7 @@ We need to to some CLI nastiness in order to import multiple lines.
 
 `PS C:\Users\colte\OneDrive\Desktop> $SecureSecret = ConvertTo-SecureString -String $RawSecret -AsPlainText -Force`
 
-`PS C:\Users\colte\OneDrive\Desktop> $secret = Set-AzKeyVaultSecret -VaultName "joeljcakeys" -Name "joeljca-2022-crt" -SecretValue $SecureSecret`
+`PS C:\Users\colte\OneDrive\Desktop> $secret = Set-AzKeyVaultSecret -VaultName "joeljcakeys" -Name "joeljca-2022-chained-crt" -SecretValue $SecureSecret`
 
 `PS C:\Users\colte\OneDrive\Desktop> $RawSecret =  Get-Content "key.rsa" -Raw`
 
