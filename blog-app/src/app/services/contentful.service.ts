@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 import { CfPost } from '../contentful-model/post';
 import { CfPage } from '../contentful-model/page';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-import { Document, MARKS } from "@contentful/rich-text-types";
+import { BLOCKS, Document, MARKS } from "@contentful/rich-text-types";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,10 @@ export class ContentfulService implements IContentService {
 
   private renderOptions = {
     renderNode: {
-      'embedded-asset-block': (node: any) =>
-        `<img class="img-fluid" src="${node.data.target.fields.file.url}"/>`
+      [BLOCKS.EMBEDDED_ASSET]: (node: any) =>
+        `<img class="img-fluid" src="${node.data.target.fields.file.url}"/>`,
+      [BLOCKS.TABLE]: (node: any, next: any) =>
+        `<table class="table">${next(node.content)}</table>`
     },
     renderMark: {
       [MARKS.CODE]: (text: any) => `<p><code><pre>${text}</pre></code></p>`
