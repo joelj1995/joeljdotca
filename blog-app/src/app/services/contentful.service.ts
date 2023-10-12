@@ -10,12 +10,22 @@ import { environment } from 'src/environments/environment';
 import { CfPost } from '../contentful-model/post';
 import { CfPage } from '../contentful-model/page';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-import { Document } from "@contentful/rich-text-types";
+import { Document, MARKS } from "@contentful/rich-text-types";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContentfulService implements IContentService {
+
+  private renderOptions = {
+    renderNode: {
+      'embedded-asset-block': (node: any) =>
+        `<img class="img-fluid" src="${node.data.target.fields.file.url}"/>`
+    },
+    renderMark: {
+      [MARKS.CODE]: (text: any) => `<p><code><pre>${text}</pre></code></p>`
+    }
+  }
 
   private client = createClient({space: environment.contentfulSpace, accessToken: environment.contentfulAccessToken});
 
@@ -28,13 +38,7 @@ export class ContentfulService implements IContentService {
       date: new Date(postData.fields.published) 
     } as Post;
     if (postData.fields.content) {
-      let options = {
-        renderNode: {
-          'embedded-asset-block': (node: any) =>
-            `<img class="img-fluid" src="${node.data.target.fields.file.url}"/>`
-        }
-      }
-      post.content = documentToHtmlString(postData.fields.content as Document, options);
+      post.content = documentToHtmlString(postData.fields.content as Document, this.renderOptions);
       post.excerpt = this.extractExcerpt(post.content);
     }
     return post;
@@ -47,7 +51,7 @@ export class ContentfulService implements IContentService {
       content: pageData.fields.legacyWordpressContent, 
     } as Page;
     if (pageData.fields.content) {
-      page.content = documentToHtmlString(pageData.fields.content as Document);
+      page.content = documentToHtmlString(pageData.fields.content as Document, this.renderOptions);
     }
     return page;
   };
