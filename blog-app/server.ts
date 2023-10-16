@@ -8,7 +8,6 @@ import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
 
-const domino = require('domino');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -38,8 +37,6 @@ if (process.env['APPLICATIONINSIGHTS_CONNECTION_STRING']) {
   console.log('Application insights not configured.');
 };
 
-global['window'] = domino.createWindow(template, 'SERVER');
-global['document'] = window.document;
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {

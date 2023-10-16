@@ -4,6 +4,7 @@ import { filter, map, startWith, switchMap, tap } from 'rxjs';
 import { BlogError } from '../models/blog-error';
 import { Posts } from '../models/posts';
 import { IContentService } from '../services/abc/content.service';
+import { JoelJConstants } from '../constants';
 
 @Component({
   selector: 'app-blog-roll',
@@ -27,7 +28,7 @@ export class BlogRollComponent implements OnInit {
     map(params => (+params['page'] ? +params['page'] : 1) as number),
     tap(page => this.currentPage = page),
     tap(() => {
-      if (window.scrollTo !== undefined) window.scrollTo(0, 0);
+      if (!JoelJConstants.isServer) window.scrollTo(0, 0);
     }),
     switchMap(page => this.contentService.getPosts(page, this.perPage)),
     map(posts => posts as Posts),

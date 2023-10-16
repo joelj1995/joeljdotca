@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Page } from '../models/page';
 import { IContentService } from '../services/abc/content.service';
@@ -11,7 +7,7 @@ import { IContentService } from '../services/abc/content.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PageResolver implements Resolve<Page[]> {
+export class PageResolver  {
 
   constructor(private content: IContentService) { }
 
