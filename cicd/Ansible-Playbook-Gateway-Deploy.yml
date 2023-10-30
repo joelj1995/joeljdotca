@@ -3,12 +3,12 @@
 
   - name: copy TLS certificate
     copy:
-      src: ../tmp/joeljca-2022.crt
+      src: ../tmp/joeljca-2023.crt
       dest: /etc/ssl/certs/
 
   - name: copy TLS key
     copy:
-      src: ../tmp/joeljca-2022.rsa
+      src: ../tmp/joeljca-2023.rsa
       dest: /etc/ssl/certs/
 
   - name: copy http configuration
