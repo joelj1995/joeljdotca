@@ -14,7 +14,7 @@ enum NodeHeaderComponents {
 }
 
 function GetActiveSlot() {
-    $SiteVersionHttpRes = Invoke-WebRequest -Uri https://www.joelj.ca/assets/version.txt
+    $SiteVersionHttpRes = Invoke-WebRequest -Uri https://www.joelj.ca/assets/version.txt -SkipCertificateCheck
     $SiteVersionHttpResNodeHeader = $SiteVersionHttpRes.Headers."X-Origin-Node"
     $SiteActiveSlot = $SiteVersionHttpResNodeHeader.Split(" ")[[int][NodeHeaderComponents]::slot]
     if ($SiteActiveSlot.EndsWith("blue")) {

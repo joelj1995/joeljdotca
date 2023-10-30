@@ -1,5 +1,9 @@
 $ErrorActionPreference = "Stop"
 
+$CICDPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepoRootPath = Split-Path -Parent $CICDPath
+. $RepoRootPath/cicd/PS-Lib.ps1
+
 $RootPassword = Get-AzKeyVaultSecret -VaultName "joeljcakeys" -Name "LinodeRootPasswordWorld1" -AsPlainText
 
 Write-Host -ForegroundColor green 'In Activate-GREEN'
@@ -16,16 +20,10 @@ $Cmd = "ansible-playbook -i ${CICDPath}/Ansible-Inventory-WORLD1.yml $RepoRootPa
 
 Write-Host $Cmd.Replace($RootPassword, '***')
 
-$Success = Invoke-Expression $Cmd
-if (-not $Success){
-    Write-Error "Command invocation failed"
-}
+InvokeAndCheck $Cmd
 
 $Cmd = "ansible-playbook -i ${CICDPath}/Ansible-Inventory-WORLD1.yml $RepoRootPath/cicd/Ansible-Playbook-Gateway-Deploy.yml --extra-vars `"root_password=$RootPassword slot=green`"" + ';$?'
 
 Write-Host $Cmd.Replace($RootPassword, '***')
 
-$Success = Invoke-Expression $Cmd
-if (-not $Success){
-    Write-Error "Command invocation failed"
-}
+InvokeAndCheck $Cmd
