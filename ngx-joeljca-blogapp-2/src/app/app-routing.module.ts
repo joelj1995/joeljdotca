@@ -6,17 +6,18 @@ import { ErrorComponent } from './views/error/error.component';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { postResolver } from './resolvers/post.resolver';
 import { PostComponent } from './views/post/post.component';
+import { PageComponent } from './views/page/page.component';
+import { pageResolver } from './resolvers/page.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { darkHeader: true } },
   { path: 'blog', component: BlogComponent },
   { path: 'error', component: ErrorComponent, data: { noHeaderOrFooter: true } },
-  // { path: 'subscribe', component: SubscribeComponent },
-  // { 
-  //   path: 'pages/:slug', 
-  //   component: PageViewComponent,
-  //   resolve: { pages: PageResolver }
-  // },
+  { 
+    path: 'pages/:slug', 
+    component: PageComponent,
+    resolve: { pages: pageResolver }
+  },
   { 
     path: 'blog/:slug', 
     component: PostComponent,

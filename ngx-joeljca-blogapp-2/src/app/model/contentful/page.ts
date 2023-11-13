@@ -1,8 +1,11 @@
-import { EntryFields } from "contentful";
+import { EntryFieldTypes } from "contentful";
 
 export type CfPage = {
-  title: EntryFields.Text,
-  slug:  EntryFields.Text,
-  content: EntryFields.RichText,
-  legacyWordpressContent: EntryFields.Text,
+  contentTypeId: "page"
+  fields: {
+    title: EntryFieldTypes.Text
+    slug:  EntryFieldTypes.Text
+    content: EntryFieldTypes.RichText
+    legacyWordpressContent: EntryFieldTypes.Text
+  }
 }

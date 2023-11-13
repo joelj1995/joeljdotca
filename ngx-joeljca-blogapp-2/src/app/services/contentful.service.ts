@@ -10,6 +10,7 @@ import { CfPost } from '../model/contentful/post';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import { environment } from 'src/environments/environment';
+import { CfPage } from '../model/contentful/page';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class ContentfulService extends ContentService {
   }
 
   override getPage(slug: string): Observable<Page[]> {
-    throw new Error('Method not implemented.');
+    let promise = this.client.getEntries<CfPage>({ 'fields.slug[match]': slug, content_type: 'page' });
+    return from(promise).pipe(map(cfPosts => cfPosts.items.map(this.convertPage)));
   }
 
   override getPosts(page: number, perPage: number): Observable<Posts | BlogError> {
@@ -43,6 +45,19 @@ export class ContentfulService extends ContentService {
     let promise = this.client.getEntries<CfPost>({ 'fields.slug[match]': slug, content_type: 'post' });
     return from(promise).pipe(map(cfPosts => cfPosts.items.map(this.convertPost)));
   }
+
+  private convertPage = (pageDataSkeleton: Entry<CfPage, "WITHOUT_LINK_RESOLUTION", string>) => {
+    const pageData = pageDataSkeleton.fields;
+    let page = {
+      slug: pageData.slug, 
+      title: pageData.title, 
+      content: pageData.legacyWordpressContent, 
+    } as Page;
+    if (pageData.content) {
+      page.content = documentToHtmlString(pageData.content, this.renderOptions);
+    }
+    return page;
+  };
 
   private convertPost = (postSkeletonData: Entry<CfPost, "WITHOUT_LINK_RESOLUTION", string>) => {
     const postData = postSkeletonData.fields;
@@ -76,9 +91,9 @@ export class ContentfulService extends ContentService {
       [BLOCKS.TABLE]: (node: any, next: any) =>
         `<table class="table">${next(node.content)}</table>`
     },
-    // renderMark: {
-    //   [MARKS.CODE]: (text: any) => `<p><code><pre>${text}</pre></code></p>`
-    // }
+    renderMark: {
+      [MARKS.CODE]: (text: any) => `<p><code><pre>${text}</pre></code></p>`
+    }
   }
   
 }

@@ -18,6 +18,7 @@ import { GlobalErrorHandler } from './errors/global-error-handler';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { PostComponent } from './views/post/post.component';
 import { ThemeSwitcherComponent } from './layout/theme-switcher/theme-switcher.component';
+import { PageComponent } from './views/page/page.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ThemeSwitcherComponent } from './layout/theme-switcher/theme-switcher.c
     ErrorComponent,
     NotFoundComponent,
     PostComponent,
-    ThemeSwitcherComponent
+    ThemeSwitcherComponent,
+    PageComponent
   ],
   imports: [
     BrowserModule,
