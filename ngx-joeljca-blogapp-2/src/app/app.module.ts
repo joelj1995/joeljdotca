@@ -9,6 +9,8 @@ import { NavLinkComponent } from './layout/nav-link/nav-link.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HomeComponent } from './views/home/home.component';
 import { BlogComponent } from './views/blog/blog.component';
+import { ContentService } from './services/abc/content.service';
+import { ContentfulService } from './services/contentful.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { BlogComponent } from './views/blog/blog.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: ContentService, useClass: ContentfulService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
