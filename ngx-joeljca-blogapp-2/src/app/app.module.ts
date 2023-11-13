@@ -1,4 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +17,7 @@ import { ErrorComponent } from './views/error/error.component';
 import { GlobalErrorHandler } from './errors/global-error-handler';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { PostComponent } from './views/post/post.component';
+import { ThemeSwitcherComponent } from './layout/theme-switcher/theme-switcher.component';
 
 @NgModule({
   declarations: [
@@ -29,11 +31,13 @@ import { PostComponent } from './views/post/post.component';
     SpinnerComponent,
     ErrorComponent,
     NotFoundComponent,
-    PostComponent
+    PostComponent,
+    ThemeSwitcherComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     { provide: ContentService, useClass: ContentfulService },
