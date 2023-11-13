@@ -3,10 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { NavDropdownComponent } from './layout/nav-dropdown/nav-dropdown.component';
+import { NavLinkComponent } from './layout/nav-link/nav-link.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    NavDropdownComponent,
+    NavLinkComponent
   ],
   imports: [
     BrowserModule,
