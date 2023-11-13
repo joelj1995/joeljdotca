@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NavigationItem } from 'src/app/model/navigation-item';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
+
+  constructor(
+    private navigation: NavigationService
+  ) { }
+
+  navigationItems(): NavigationItem[] {
+    return this.navigation.getNavigationItems();
+  }
 
 }

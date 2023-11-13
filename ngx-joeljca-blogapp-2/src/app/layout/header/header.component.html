@@ -10,11 +10,9 @@
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <app-nav-link>Services</app-nav-link>
-          <app-nav-link>Portfolio</app-nav-link>
-          <app-nav-link>Blog</app-nav-link>
-          <app-nav-link>About Me</app-nav-link>
-          <app-nav-link>Source</app-nav-link>
+          <ng-container *ngFor="let item of navigationItems()">
+            <app-nav-link [navItem]="item">Services</app-nav-link>
+          </ng-container>
         </ul>
       </div>
     </div>

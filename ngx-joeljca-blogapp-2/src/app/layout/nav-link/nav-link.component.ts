@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { NavigationItem } from 'src/app/model/navigation-item';
 
 @Component({
   selector: 'app-nav-link',
@@ -7,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class NavLinkComponent {
 
-  @Input() link = '';
-  @Input() bypassRouter = false;
+  @Input()
+  navItem!: NavigationItem;
 
 }
