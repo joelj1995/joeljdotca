@@ -11,6 +11,7 @@ import { HomeComponent } from './views/home/home.component';
 import { BlogComponent } from './views/blog/blog.component';
 import { ContentService } from './services/abc/content.service';
 import { ContentfulService } from './services/contentful.service';
+import { SpinnerComponent } from './layout/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ContentfulService } from './services/contentful.service';
     NavLinkComponent,
     FooterComponent,
     HomeComponent,
-    BlogComponent
+    BlogComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
