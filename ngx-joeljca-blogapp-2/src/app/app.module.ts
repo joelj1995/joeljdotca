@@ -15,6 +15,7 @@ import { SpinnerComponent } from './layout/spinner/spinner.component';
 import { ErrorComponent } from './views/error/error.component';
 import { GlobalErrorHandler } from './errors/global-error-handler';
 import { NotFoundComponent } from './views/not-found/not-found.component';
+import { PostComponent } from './views/post/post.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NotFoundComponent } from './views/not-found/not-found.component';
     BlogComponent,
     SpinnerComponent,
     ErrorComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

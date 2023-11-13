@@ -40,7 +40,8 @@ export class ContentfulService extends ContentService {
   }
 
   override getPost(slug: string): Observable<Post[]> {
-    throw new Error('Method not implemented.');
+    let promise = this.client.getEntries<CfPost>({ 'fields.slug[match]': slug, content_type: 'post' });
+    return from(promise).pipe(map(cfPosts => cfPosts.items.map(this.convertPost)));
   }
 
   private convertPost = (postSkeletonData: Entry<CfPost, "WITHOUT_LINK_RESOLUTION", string>) => {
@@ -75,9 +76,9 @@ export class ContentfulService extends ContentService {
       [BLOCKS.TABLE]: (node: any, next: any) =>
         `<table class="table">${next(node.content)}</table>`
     },
-    renderMark: {
-      [MARKS.CODE]: (text: any) => `<p><code><pre>${text}</pre></code></p>`
-    }
+    // renderMark: {
+    //   [MARKS.CODE]: (text: any) => `<p><code><pre>${text}</pre></code></p>`
+    // }
   }
   
 }

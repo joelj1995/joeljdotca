@@ -1,0 +1,22 @@
+<ng-container *ngIf="post">
+
+  <!-- Post title + Meta  -->
+  <section class="container mt-lg-5 pt-lg-5">
+    <h1 class="pb-1">{{ post.title }}</h1>
+    <div class="d-flex flex-md-row flex-column align-items-md-center justify-content-md-between mb-3">
+      <div class="d-flex align-items-center flex-wrap text-muted mb-md-0 mb-4">
+        <div class="fs-sm pe-3 me-3 mb-2">{{ post.date | date:'yyyy-MM-dd' }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Post content  -->
+  <section class="container mb-5 pt-1 pb-2 py-mg-4">
+    <div  class="row gy-4">
+      <div class="col-lg-10" [innerHTML]="post!.content">
+
+      </div>
+    </div>
+  </section>
+
+</ng-container>

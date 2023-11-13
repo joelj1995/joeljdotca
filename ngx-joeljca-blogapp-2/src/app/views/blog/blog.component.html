@@ -16,7 +16,7 @@
         <div class="row g-0">
           <div class="col-sm-4 position-relative bg-position-center bg-repeat-0 bg-size-cover"
             style="background-image: url(assets/img/blog/01.jpg); min-height: 15rem;">
-            <a href="blog-single.html" class="position-absolute top-0 start-0 w-100 h-100" aria-label="Read more"></a>
+            <a [routerLink]="post.slug" class="position-absolute top-0 start-0 w-100 h-100" aria-label="Read more"></a>
           </div>
           <div class="col-sm-8">
             <div class="card-body">
@@ -24,7 +24,7 @@
                 <span class="fs-sm text-muted">{{ post.date | date:'yyyy-MM-dd' }}</span>
               </div>
               <h3 class="h4">
-                <a href="blog-single.html">{{ post.title }}</a>
+                <a [routerLink]="post.slug">{{ post.title }}</a>
               </h3>
               <p [innerHTML]="post.excerpt"></p>
               <hr class="my-4">
