@@ -14,6 +14,7 @@ import { ContentfulService } from './services/contentful.service';
 import { SpinnerComponent } from './layout/spinner/spinner.component';
 import { ErrorComponent } from './views/error/error.component';
 import { GlobalErrorHandler } from './errors/global-error-handler';
+import { NotFoundComponent } from './views/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { GlobalErrorHandler } from './errors/global-error-handler';
     HomeComponent,
     BlogComponent,
     SpinnerComponent,
-    ErrorComponent
+    ErrorComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
