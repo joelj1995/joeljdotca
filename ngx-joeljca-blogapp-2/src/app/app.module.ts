@@ -8,6 +8,7 @@ import { NavDropdownComponent } from './layout/nav-dropdown/nav-dropdown.compone
 import { NavLinkComponent } from './layout/nav-link/nav-link.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HomeComponent } from './views/home/home.component';
+import { BlogComponent } from './views/blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HomeComponent } from './views/home/home.component';
     NavDropdownComponent,
     NavLinkComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,

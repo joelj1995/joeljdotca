@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
+import { BlogComponent } from './views/blog/blog.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, data: { darkHeader: true } },
+  { path: 'blog', component: BlogComponent },
   // { path: 'subscribe', component: SubscribeComponent },
   // { 
   //   path: 'pages/:slug', 
