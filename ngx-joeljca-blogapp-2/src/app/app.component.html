@@ -3,11 +3,11 @@
   <app-spinner></app-spinner>
 
   <main class="page-wrapper">
-    <app-header></app-header>
+    <app-header *ngIf="!noHeaderOrFooter"></app-header>
     <router-outlet></router-outlet>
   </main>
 
-  <app-footer></app-footer>
+  <app-footer *ngIf="!noHeaderOrFooter"></app-footer>
 
   <a href="#top" class="btn-scroll-top" data-scroll>
     <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>

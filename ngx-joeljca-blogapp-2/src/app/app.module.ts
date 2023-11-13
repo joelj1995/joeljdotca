@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +12,8 @@ import { BlogComponent } from './views/blog/blog.component';
 import { ContentService } from './services/abc/content.service';
 import { ContentfulService } from './services/contentful.service';
 import { SpinnerComponent } from './layout/spinner/spinner.component';
+import { ErrorComponent } from './views/error/error.component';
+import { GlobalErrorHandler } from './errors/global-error-handler';
 
 @NgModule({
   declarations: [
@@ -22,14 +24,19 @@ import { SpinnerComponent } from './layout/spinner/spinner.component';
     FooterComponent,
     HomeComponent,
     BlogComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
   providers: [
-    { provide: ContentService, useClass: ContentfulService }
+    { provide: ContentService, useClass: ContentfulService },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
   ],
   bootstrap: [AppComponent]
 })

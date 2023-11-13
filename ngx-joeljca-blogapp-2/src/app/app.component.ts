@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SpinnerService } from './services/spinner.service';
-import { NavigationCancel, NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { ActivationStart, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs';
 
 @Component({
@@ -18,16 +18,22 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.pipe(
-      filter(event => event instanceof RouterEvent)
+      filter(event => event instanceof RouterEvent || event instanceof ActivationStart)
     )
     .subscribe(e => {
       if (e instanceof NavigationStart) {
         this.spinner.inc();
       }
-      if (e instanceof NavigationEnd || e instanceof NavigationCancel) {
+      if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
         this.spinner.dec();
+      }
+      if (e instanceof ActivationStart) {
+        const data = e.snapshot.data;
+        this.noHeaderOrFooter = data['noHeaderOrFooter'];
       }
     });
   }
+
+  noHeaderOrFooter = false;
 
 }
