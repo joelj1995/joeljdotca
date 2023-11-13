@@ -34,7 +34,7 @@ export class ContentfulService extends ContentService {
     return from(promise).pipe(map(cfPosts => {
       return {
         posts: cfPosts.items.map(this.convertPost),
-        totalPages: cfPosts.total
+        totalPages: Math.ceil(cfPosts.total / perPage)
       } as Posts;
     }));
   }

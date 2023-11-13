@@ -29,12 +29,25 @@ export class BlogComponent implements OnInit {
     // }),
     switchMap(page => this.content.getPosts(page, this.perPage)),
     map(posts => posts as Posts),
+    tap(posts => this.numPages = posts.totalPages),
     tap(() => this.loading = false)
   );
+
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.numPages }, (_, index) => index + 1);
+  }
+
+  get lastPageDisabled(): boolean {
+    return this.currentPage == this.numPages;
+  }
+
+  get firstPageDisabled(): boolean {
+    return this.currentPage == 1;
+  }
 
   loading: boolean = true;
 
   readonly perPage: number = 5;
   currentPage: number = 1;
-
+  numPages = this.currentPage;
 }
