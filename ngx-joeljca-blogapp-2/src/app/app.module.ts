@@ -24,13 +24,19 @@ import { PlatformService } from './services/platform.service';
 import { Observable, of } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
-function initializeAppFactory(_doc: Document, platform: PlatformService): () => Observable<any> {
+function initializeAppFactory(
+  _doc: Document,
+  platform: PlatformService): () => Observable<any> {
   return () => {
     if (!platform.isBrowser) {
+      console.info('On Server');
       // @ts-ignore
       (global['window'] as any) = _doc;
       // @ts-ignore
       (global['document'] as any) = _doc;
+    }
+    else {
+      console.info('In Browser');
     }
     return of('');
   };

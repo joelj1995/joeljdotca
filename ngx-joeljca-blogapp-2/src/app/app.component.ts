@@ -3,6 +3,7 @@ import { SpinnerService } from './services/spinner.service';
 import { ActivationStart, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs';
 import { PlatformService } from './services/platform.service';
+import { MonitoringService } from './services/monitoring.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,13 @@ export class AppComponent implements OnInit {
   title = 'blogapp';
 
   constructor(
+    private monitoring: MonitoringService,
     private platform: PlatformService,
     private router: Router,
     private spinner: SpinnerService
-  ) { }
+  ) { 
+    this.monitoring.eventForCheckIn();
+  }
 
   ngOnInit(): void {
     this.router.events.pipe(
