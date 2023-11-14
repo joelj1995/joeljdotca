@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { NavigationItem } from '../model/navigation-item';
+import { FeatureService } from './feature.service';
+import { FEATURE_PORTFOLIO } from '../model/features';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
 
-  constructor() { }
+  constructor(
+    private feature: FeatureService
+  ) { }
 
   getNavigationItems(): NavigationItem[] {
     return this.items;
@@ -30,10 +34,10 @@ export class NavigationService {
 
   private items: NavigationItem[] = [ 
     NavigationService.routerNavItem('Services', '/pages/services'),
-    NavigationService.routerNavItem('Portfolio', '/pages/portfolio'),
+    this.feature.get(FEATURE_PORTFOLIO) ? NavigationService.routerNavItem('Portfolio', '/pages/portfolio') : undefined,
     NavigationService.routerNavItem('Blog', '/blog'),
     NavigationService.routerNavItem('About Me', '/pages/about-me'),
     NavigationService.hrefNavItem('Source', 'https://github.com/joelj1995/joeljdotca'),
-  ];
+  ].filter((x) => !!x) as NavigationItem[];
 
 }

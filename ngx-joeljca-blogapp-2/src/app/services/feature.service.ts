@@ -12,6 +12,8 @@ export class FeatureService {
     return this.enabled.indexOf(feature) >= 0;
   }
 
-  private enabled: string[] = [ FEATURE_PORTFOLIO ];
+  private enabled: string[] = [
+    // FEATURE_PORTFOLIO,
+  ];
 
 }
