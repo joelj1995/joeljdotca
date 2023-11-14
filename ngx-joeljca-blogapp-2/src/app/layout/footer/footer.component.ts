@@ -17,4 +17,9 @@ export class FooterComponent {
     return this.navigation.getNavigationItems();
   }
 
+  submitEmailForMailChimp() {
+    const form = document.getElementById('mc-embedded-subscribe-form');
+    if (form != null) (form as any).submit();
+  }
+
 }

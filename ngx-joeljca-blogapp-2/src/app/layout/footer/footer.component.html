@@ -9,17 +9,30 @@
         <p class="fs-sm text-light opacity-70 pb-lg-3 mb-4">
           Head high up in the clouds
         </p>
-        <form class="needs-validation" novalidate>
+
+        <form
+          action="https://joelj.us17.list-manage.com/subscribe/post?u=c46f03c7a836863925e73b063&amp;id=3c5087667e&amp;f_id=00ea4ae0f0"
+          method="post" 
+          id="mc-embedded-subscribe-form" 
+          name="mc-embedded-subscribe-form" 
+          target="_blank"
+          novalidate>
           <label for="subscr-email" class="form-label">Subscribe to our newsletter</label>
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input 
+              type="text"
+              name="b_c46f03c7a836863925e73b063_3c5087667e" 
+              tabindex="-1" 
+              value="">
+          </div>
           <div class="input-group">
-            <input type="email" id="subscr-email" class="form-control rounded-start ps-5" placeholder="Your email"
-              required>
-            <i
-              class="bx bx-envelope fs-lg text-muted position-absolute top-50 start-0 translate-middle-y ms-3 zindex-5"></i>
-            <div class="invalid-tooltip position-absolute top-100 start-0">Please provide a valid email address.</div>
-            <button type="submit" class="btn btn-primary">Subscribe</button>
+            <input type="email" value="" name="EMAIL" class="form-control rounded-start ps-5" placeholder="Your email" id="mce-EMAIL">
+            <i class="bx bx-envelope fs-lg text-muted position-absolute top-50 start-0 translate-middle-y ms-3 zindex-5"></i>
+            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary" (click)="submitEmailForMailChimp()">
           </div>
         </form>
+
       </div>
       <div class="col-xl-6 col-lg-7 col-md-5 offset-xl-2 offset-md-1 pt-4 pt-md-1 pt-lg-0">
         <div id="footer-links" class="row">
