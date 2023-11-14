@@ -8,11 +8,13 @@ import { postResolver } from './resolvers/post.resolver';
 import { PostComponent } from './views/post/post.component';
 import { PageComponent } from './views/page/page.component';
 import { pageResolver } from './resolvers/page.resolver';
+import { ServicesComponent } from './views/services/services.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { darkHeader: true } },
   { path: 'blog', component: BlogComponent },
   { path: 'error', component: ErrorComponent, data: { noHeaderOrFooter: true } },
+  { path: 'services', component: ServicesComponent },
   { 
     path: 'pages/:slug', 
     component: PageComponent,

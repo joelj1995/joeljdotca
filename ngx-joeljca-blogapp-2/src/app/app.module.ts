@@ -19,6 +19,7 @@ import { NotFoundComponent } from './views/not-found/not-found.component';
 import { PostComponent } from './views/post/post.component';
 import { ThemeSwitcherComponent } from './layout/theme-switcher/theme-switcher.component';
 import { PageComponent } from './views/page/page.component';
+import { ServicesComponent } from './views/services/services.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PageComponent } from './views/page/page.component';
     NotFoundComponent,
     PostComponent,
     ThemeSwitcherComponent,
-    PageComponent
+    PageComponent,
+    ServicesComponent
   ],
   imports: [
     BrowserModule,

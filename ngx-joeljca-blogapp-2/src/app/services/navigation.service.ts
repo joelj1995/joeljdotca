@@ -33,8 +33,8 @@ export class NavigationService {
   }
 
   private items: NavigationItem[] = [ 
-    NavigationService.routerNavItem('Services', '/pages/services'),
-    this.feature.get(FEATURE_PORTFOLIO) ? NavigationService.routerNavItem('Portfolio', '/pages/portfolio') : undefined,
+    NavigationService.routerNavItem('Services', '/services'),
+    this.feature.get(FEATURE_PORTFOLIO) ? NavigationService.routerNavItem('Portfolio', '/portfolio') : undefined,
     NavigationService.routerNavItem('Blog', '/blog'),
     NavigationService.routerNavItem('About Me', '/pages/about-me'),
     NavigationService.hrefNavItem('Source', 'https://github.com/joelj1995/joeljdotca'),
