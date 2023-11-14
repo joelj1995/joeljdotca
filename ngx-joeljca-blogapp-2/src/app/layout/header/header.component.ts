@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivationStart, Router } from '@angular/router';
+import { ActivationEnd, Router } from '@angular/router';
 import { NavigationItem } from 'src/app/model/navigation-item';
 import { NavigationService } from 'src/app/services/navigation.service';
 
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
-      if (event instanceof ActivationStart) {
+      if (event instanceof ActivationEnd) {
         const data = event.snapshot.data;
         if (data['darkHeader'])
           this.darkHeader = true;
@@ -38,6 +38,6 @@ export class HeaderComponent implements OnInit {
       return "header navbar navbar-expand-lg bg-light shadow-sm shadow-dark-mode-none fixed-top";
   }
 
-  private darkHeader: boolean = false;
+  public darkHeader: boolean = false;
 
 }
