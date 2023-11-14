@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -20,6 +20,21 @@ import { PostComponent } from './views/post/post.component';
 import { ThemeSwitcherComponent } from './layout/theme-switcher/theme-switcher.component';
 import { PageComponent } from './views/page/page.component';
 import { ServicesComponent } from './views/services/services.component';
+import { PlatformService } from './services/platform.service';
+import { Observable, of } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+
+function initializeAppFactory(_doc: Document, platform: PlatformService): () => Observable<any> {
+  return () => {
+    if (!platform.isBrowser) {
+      // @ts-ignore
+      (global['window'] as any) = _doc;
+      // @ts-ignore
+      (global['document'] as any) = _doc;
+    }
+    return of('');
+  };
+ }
 
 @NgModule({
   declarations: [
@@ -49,6 +64,12 @@ import { ServicesComponent } from './views/services/services.component';
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAppFactory,
+      deps: [DOCUMENT, PlatformService],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
