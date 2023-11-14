@@ -34,7 +34,7 @@ function initializeAppFactory(_doc: Document, platform: PlatformService): () => 
     }
     return of('');
   };
- }
+}
 
 @NgModule({
   declarations: [

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SpinnerService } from './services/spinner.service';
 import { ActivationStart, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs';
+import { PlatformService } from './services/platform.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit {
   title = 'blogapp';
 
   constructor(
+    private platform: PlatformService,
     private router: Router,
     private spinner: SpinnerService
   ) { }
@@ -26,6 +28,11 @@ export class AppComponent implements OnInit {
       }
       if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
         this.spinner.dec();
+      }
+      if (e instanceof NavigationEnd) {
+        if (this.platform.isBrowser) {
+          window.scrollTo(0, 0);
+        }
       }
       if (e instanceof ActivationStart) {
         const data = e.snapshot.data;
