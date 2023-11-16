@@ -180,6 +180,16 @@
       animation-delay: 2s;
     }
   </style>
+  <script>
+    const isServer = (typeof window == 'undefined') || Number.isNaN(window.scrollY + 1);
+    if (!isServer) {
+      const originNode = ('; '+document.cookie).split(`; originnode=`).pop().split(';')[0];
+      const decodedOriginNode = decodeURIComponent(originNode);
+      const serverParts = decodedOriginNode.split(' ');
+      const originLb = ('; '+document.cookie).split(`; originlb=`).pop().split(';')[0];
+      window.serverInfo = { node: serverParts[0], slot: serverParts[1], version: serverParts[2], lb: originLb }
+    }
+  </script>
 </head>
 
 <body>

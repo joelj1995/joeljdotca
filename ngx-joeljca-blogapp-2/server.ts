@@ -7,6 +7,33 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { AppServerModule } from './src/main.server';
 
+
+const appInsights = require('applicationinsights');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+
+const version = fs
+  .readFileSync(path.join(join(process.cwd(), 'dist/blogapp/browser/assets'), 'version.txt'))
+  .toString().trim();
+
+
+const resOrigin = `${os.hostname()} ${process.cwd()} ${version}`;
+
+if (process.env['APPLICATIONINSIGHTS_CONNECTION_STRING']) {
+  appInsights.setup()
+    .start();
+  appInsights.defaultClient.commonProperties = {
+    node: os.hostname(),
+    slot: process.cwd(),
+    version: version
+  };
+  appInsights.defaultClient.config.maxBatchIntervalMs = 100;
+  console.log('Azure monitor configured');
+} else {
+  console.log('Application insights not configured.');
+};
+
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
@@ -20,6 +47,12 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+
+  server.use((req, res, next) => {
+    res.setHeader('X-Origin-Node', resOrigin);
+    res.cookie('originnode', resOrigin, { httpOnly: false });
+    next();
+  });
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
