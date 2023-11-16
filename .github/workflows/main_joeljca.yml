@@ -15,7 +15,7 @@ jobs:
       with:
         node-version: '18.x'
     - name: Build server
-      working-directory: ./blog-app
+      working-directory: ./ngx-joeljca-blogapp-2
       run: |
         npm install
         npm run build:ssr
