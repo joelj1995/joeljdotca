@@ -19,12 +19,17 @@ export class HeaderComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof ActivationEnd) {
         const data = event.snapshot.data;
+        this.disableMenu();
         if (data['darkHeader'])
           this.darkHeader = true;
         else
           this.darkHeader = false;
       }
     });
+  }
+
+  disableMenu() {
+    this._showMenu = false;
   }
 
   navigationItems(): NavigationItem[] {
@@ -38,6 +43,15 @@ export class HeaderComponent implements OnInit {
       return "header navbar navbar-expand-lg bg-light shadow-sm shadow-dark-mode-none fixed-top";
   }
 
+  toggleMenu() {
+    this._showMenu = !this._showMenu;
+  }
+
+  get showMenu(): boolean {
+    return this._showMenu;
+  }
+
   public darkHeader: boolean = false;
 
+  private _showMenu = false;
 }
