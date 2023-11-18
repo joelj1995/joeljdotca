@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
     if (this.darkHeader)
       return "header navbar navbar-expand-lg navbar-dark position-absolute navbar-sticky";
     else
-      return "header navbar navbar-expand-lg bg-light shadow-sm shadow-dark-mode-none fixed-top";
+      return "header navbar navbar-expand-lg bg-light shadow-sm shadow-dark-mode-none";
   }
 
   toggleMenu() {
