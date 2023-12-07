@@ -41,10 +41,10 @@
     </div>
 
     <!-- Pagination -->
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example" class="mb-5">
 
       <ul class="pagination justify-content-center pt-lg-3 pt-1">
-        
+
         <li class="page-item" [class.disabled]="firstPageDisabled">
           <a routerLink="/blog" [queryParams]="{page: currentPage - 1}" class="page-link" aria-label="Previous page">
             <i class="bx bx-chevron-left mx-n1"></i>
